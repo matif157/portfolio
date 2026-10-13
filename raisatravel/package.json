@@ -1,0 +1,24 @@
+{
+  "name": "raisatravel-b2b",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "audit": "python3 scripts/audit.py",
+    "qa:browser": "node scripts/browser-qa.mjs",
+    "qa:contrast": "node scripts/contrast.mjs",
+    "qa:api": "node scripts/api-integration.mjs",
+    "verify": "npm run build && npm run audit",
+    "qa": "npm run verify && npm run qa:api",
+    "qa:strict": "node scripts/strict-audit.mjs",
+    "qa:pixel": "node scripts/pixel-qa.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0",
+    "pngjs": "^7.0.0",
+    "vite": "^5.4.0"
+  }
+}

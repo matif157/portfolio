@@ -1,0 +1,103 @@
+RAISATRAVEL - LOGO SPECIFICATION
+================================
+
+Brand
+-----
+Raisatravel - global manpower and recruitment agency.
+Supplies skilled workforce to large international corporate groups
+across the Gulf & Middle East. Est. 1997.
+
+Positioning: premium, enterprise-grade, trustworthy, precise.
+
+
+WHAT WAS BUILT
+--------------
+The mark lives at: public/assets/svg/logo-mark.svg
+The wordmark is set in HTML/CSS (not outlined paths) so it stays
+crisp at every size and can be edited without touching the SVG.
+
+Files:
+  public/assets/svg/logo-mark.svg   -> the symbol / favicon
+  src/css/layout.css                -> .brand-wordmark typography
+
+Lockup used in header and footer:
+  [mark] RAISA TRAVEL
+  where RAISA is white and TRAVEL is cyan (#00e0ff)
+
+
+THE MARK
+--------
+Concept: converging routes rising to a single node.
+
+  - One cyan circle at the top = the destination / the placement.
+  - Two cyan strokes rising from the lower left and lower right and
+    converging on that node = candidate routes merging into one
+    reliable outcome.
+  - Two shorter white strokes at 32% opacity beneath them = the wider
+    pipeline behind the shortlisted few.
+
+Reads as: connection, convergence, ascent, precision.
+Deliberately avoids: globes, hands, figures, briefcases, swooshes.
+
+Geometry (64x64 grid, stroke-based, stroke-width 5.5, round caps):
+
+  <circle cx="32" cy="11" r="5.5" fill="#00e0ff"/>
+  <path d="M9 43.5 L32 20.5" stroke="#00e0ff" stroke-width="5.5" stroke-linecap="round"/>
+  <path d="M55 43.5 L32 20.5" stroke="#00e0ff" stroke-width="5.5" stroke-linecap="round"/>
+  <path d="M14 58 L32 40" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" opacity="0.32"/>
+  <path d="M50 58 L32 40" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" opacity="0.32"/>
+
+Because it is stroke-only with round caps it stays legible down to
+16px, which is why it doubles as the favicon without a second asset.
+
+
+COLOUR
+------
+  Deep navy (background)  #000814
+  White                   #ffffff
+  Accent cyan             #00e0ff
+
+Cyan appears on the mark and on the wordmark tail only. No gradients.
+
+
+WORDMARK
+--------
+  Typeface:   Inter 700 (Google Fonts, already loaded site-wide)
+  Tracking:   0.16em
+  Case:       all caps
+  Colour:     RAISA = #ffffff, TRAVEL = #00e0ff
+  Size:       clamp(0.95rem, 1.4vw, 1.1rem)
+
+Inter was chosen because it is already in the build, has excellent
+legibility at small sizes, and its wide apertures hold up next to a
+geometric stroke-based mark. If the brand is later refreshed, Space
+Grotesk or Sora would pair equally well at the same tracking.
+
+
+VARIANTS TO PRODUCE IF THE BRAND IS EVER EXTENDED
+-------------------------------------------------
+  1. Primary       mark + wordmark on light background (navy wordmark)
+  2. Reversed      mark + wordmark on dark  (what ships today)
+  3. Mono black    single-colour, for stamps and invoices
+  4. Mono white    single-colour, for dark partner lockups
+  5. Mark only     already exists as logo-mark.svg
+
+
+CLEARSPACE AND MINIMUM SIZE
+---------------------------
+  Clearspace:  the width of the top node (11 units on the 64 grid)
+  Min width:   24px for the mark, 120px for the full lockup
+  Never:       rotate, stretch, outline, add a shadow, or place the
+               cyan strokes on a light background without the navy
+
+
+PROMPT FOR A FIGMA AI / IMAGE TOOL, IF YOU WANT ALTERNATIVES
+------------------------------------------------------------
+"Minimal geometric logo mark for a premium B2B manpower agency.
+Two thin strokes rising from the lower left and lower right and
+converging on a single solid circle at the top centre, like routes
+merging into one destination. Flat vector, stroke weight 5.5 on a
+64x64 grid, round line caps, no fill on the strokes. Accent cyan
+#00e0ff with two shorter white strokes at 32% opacity beneath.
+No text, no globe, no people, no gradients, no shadows. Must stay
+legible at 16x16 pixels."

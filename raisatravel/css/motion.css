@@ -1,0 +1,272 @@
+/* ==========================================================================
+   Raisatravel — motion layer
+   All reveal states are gated behind `.js` on <html>, which is set by an inline
+   script in the head. If that script never runs, nothing is ever hidden.
+   ========================================================================== */
+
+.js [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0);
+  transition:
+    opacity var(--t-slow) var(--e-out),
+    transform var(--t-slow) var(--e-out);
+  transition-delay: var(--rd, 0ms);
+  will-change: opacity, transform;
+}
+
+.js [data-reveal='fade'] {
+  transform: none;
+}
+
+.js [data-reveal='left'] {
+  transform: translate3d(-34px, 0, 0);
+}
+
+.js [data-reveal='right'] {
+  transform: translate3d(34px, 0, 0);
+}
+
+.js [data-reveal='scale'] {
+  transform: scale(0.94);
+}
+
+.js [data-reveal='clip'] {
+  transform: none;
+  clip-path: inset(0 100% 0 0);
+  transition:
+    opacity var(--t-slow) var(--e-out),
+    clip-path 900ms var(--e-out);
+}
+
+.js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 0 0);
+}
+
+/* ---- scroll progress ----------------------------------------------------- */
+
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 130;
+  height: 2px;
+  pointer-events: none;
+}
+
+.scroll-progress__bar {
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: var(--grad-brand);
+  box-shadow: 0 0 14px rgba(0, 224, 255, 0.8);
+}
+
+/* ---- custom cursor ------------------------------------------------------- */
+
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  border: 1px solid var(--brand-a45);
+  background: rgba(0, 224, 255, 0.07);
+  backdrop-filter: blur(2px);
+  transition:
+    width var(--t-base) var(--e-out),
+    height var(--t-base) var(--e-out),
+    margin var(--t-base) var(--e-out),
+    background var(--t-base) var(--e-out),
+    opacity var(--t-base) linear;
+}
+
+.cursor::after {
+  content: '';
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  background: var(--brand);
+}
+
+.cursor.is-on {
+  opacity: 1;
+}
+
+.cursor.is-link {
+  width: 62px;
+  height: 62px;
+  margin: -31px 0 0 -31px;
+  background: rgba(0, 224, 255, 0.14);
+}
+
+/* never show the ring for people who don't want a custom pointer */
+@media (hover: none), (pointer: coarse) {
+  .cursor {
+    display: none;
+  }
+}
+
+/* ---- magnetic hover ------------------------------------------------------ */
+
+[data-magnetic] {
+  transition: transform var(--t-base) var(--e-out);
+  will-change: transform;
+}
+
+/* ---- 3D tilt ------------------------------------------------------------- */
+
+[data-tilt] {
+  transform-style: preserve-3d;
+  transition: transform 400ms var(--e-out);
+  will-change: transform;
+}
+
+[data-tilt] > .tilt-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    22rem 22rem at var(--gx, 50%) var(--gy, 50%),
+    rgba(0, 224, 255, 0.16),
+    transparent 60%
+  );
+  transition: opacity var(--t-base) var(--e-out);
+}
+
+[data-tilt]:hover > .tilt-glare {
+  opacity: 1;
+}
+
+/* ---- marquee ------------------------------------------------------------- */
+
+.marquee__label {
+  margin: 0 0 clamp(1.25rem, 2.5vw, 1.75rem);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+
+.marquee {
+  --gap: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  gap: var(--gap);
+  animation: marquee var(--marquee-dur, 46s) linear infinite;
+}
+
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+.marquee__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: none;
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink-3);
+  white-space: nowrap;
+  transition: color var(--t-base) var(--e-out);
+}
+
+.marquee__item:hover {
+  color: var(--ink-1);
+}
+
+.marquee__dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--brand);
+  opacity: 0.55;
+  flex: none;
+}
+
+/* ---- animated counters --------------------------------------------------- */
+
+[data-count] {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+/* ---- canvas backdrop ----------------------------------------------------- */
+
+.canvas-field {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* the canvas sets its own width/height attributes in device pixels for crisp
+   lines, so it has to be scaled back down to its layout size in CSS */
+.canvas-field > canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- process rail (scroll-driven) ---------------------------------------- */
+
+.rail {
+  position: relative;
+}
+
+.rail__spine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: clamp(1.4rem, 4vw, 2.4rem);
+  width: 1px;
+  background: var(--line-2);
+  overflow: hidden;
+}
+
+.rail__fill {
+  width: 100%;
+  height: 100%;
+  transform: scaleY(0);
+  transform-origin: 50% 0;
+  background: linear-gradient(180deg, var(--brand), var(--brand-3));
+  box-shadow: 0 0 16px rgba(0, 224, 255, 0.7);
+  transition: transform 120ms linear;
+}
+
+/* ---- ambient float ------------------------------------------------------- */
+
+.float-slow {
+  animation: float-y 7s var(--e-in-out) infinite;
+}
+
+.float-slower {
+  animation: float-y 11s var(--e-in-out) infinite;
+}
