@@ -1,0 +1,3 @@
+<?php
+namespace App\Support;
+final class RateLimiter { public function hit(string $key,int $limit=60,int $window=60):bool{$pdo=Database::pdo();$hash=hash('sha256',$key);$start=date('Y-m-d H:i:00');$s=$pdo->prepare('SELECT hits FROM rate_limits WHERE tenant_id=? AND key_hash=? AND window_started_at=?');$s->execute([TenantContext::id(),$hash,$start]);$hits=(int)($s->fetchColumn()?:0);if($hits >= $limit)return false;$u=$pdo->prepare('INSERT INTO rate_limits(tenant_id,key_hash,window_started_at,hits) VALUES(?,?,?,1) ON DUPLICATE KEY UPDATE hits=hits+1');$u->execute([TenantContext::id(),$hash,$start]);return true;} }

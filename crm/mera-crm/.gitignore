@@ -1,0 +1,17 @@
+.env
+/vendor/
+/uploads/
+/logs/
+*.log
+*.sqlite
+*.sqlite3
+log_in.php
+db.php
+_inspect_auth.php
+_verify_db.php
+_inspect_schema.php
+import_staff.php
+phpinfo.php
+desktop.ini
+.phpunit.result.cache
+composer.lock

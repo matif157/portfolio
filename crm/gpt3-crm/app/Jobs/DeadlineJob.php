@@ -1,0 +1,1 @@
+<?php namespace App\Jobs; use App\Core\Database; final class DeadlineJob{public function run():int{return (int)Database::pdo()->exec("UPDATE deadlines SET status='overdue' WHERE due_at<NOW() AND status='open'");}}

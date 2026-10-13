@@ -1,0 +1,1 @@
+<!doctype html><html><body style="font-family:Arial;padding:40px"><h1>500</h1><p>Something went wrong.</p></body></html>

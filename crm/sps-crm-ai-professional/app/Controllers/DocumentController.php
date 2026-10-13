@@ -1,0 +1,4 @@
+<?php
+namespace App\Controllers;
+use App\Support\{Auth,View,Request,Response,Csrf};use App\Repositories\DocumentRepository;use App\Services\Documents\DocumentService;
+final class DocumentController { public function index():void{Auth::requireLogin();View::render('documents/index',['rows'=>(new DocumentRepository)->all()]);} public function upload():void{Auth::requireLogin();$r=new Request();if(!Csrf::check($r->input('_csrf')))Response::json(['error'=>'csrf'],419);if(empty($_FILES['file']['tmp_name'])){Response::redirect('/documents?error=missing');} $c=file_get_contents($_FILES['file']['tmp_name']);$id=(new DocumentService)->store((int)$r->input('client_id'),$_FILES['file']['name'],$c,$_FILES['file']['type']?:'application/octet-stream');Response::redirect('/documents?uploaded='.$id);} public function download($id):void{Auth::requireLogin();$data=(new DocumentService)->access((int)$id);header('Content-Type: application/octet-stream');echo $data;}}

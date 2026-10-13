@@ -1,0 +1,15 @@
+﻿        'email' : '<?= $tw_email ?>',
+        'crm_role': '<?= htmlspecialchars($_SESSION['user_role_name'] ?? 'Staff', ENT_QUOTES) ?>'
+    }, function(error) {
+        if (error) { console.warn('Tawk.to attribute set error:', error); }
+    });
+};
+</script>
+<?php endif; ?>
+
+</body>
+</html>
+    <?php
+}
+
+

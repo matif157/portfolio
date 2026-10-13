@@ -1,0 +1,1 @@
+<?php namespace App\Integrations\Messaging; use App\Integrations\Contract\MessagingInterface; final class SmsAdapter implements MessagingInterface{public function send(string $to,string $message,array $meta=[]):array{return ['status'=>'not_configured','channel'=>'sms','to'=>$to];}}

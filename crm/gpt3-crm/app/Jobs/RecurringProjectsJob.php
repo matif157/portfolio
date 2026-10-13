@@ -1,0 +1,1 @@
+<?php namespace App\Jobs; use App\Services\RecurringProjectService; final class RecurringProjectsJob{public function run():int{return (new RecurringProjectService)->process();}}

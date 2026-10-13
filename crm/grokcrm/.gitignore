@@ -1,0 +1,17 @@
+.env
+/vendor/
+/uploads/
+/logs/
+*.log
+*.sqlite
+*.sqlite3
+config/db.php
+fix_admin_password.php
+database/fix_admin.sql
+database/database.sql
+database/update_tables.sql
+includes/settings_helper.php
+error_logs/
+desktop.ini
+.phpunit.result.cache
+composer.lock

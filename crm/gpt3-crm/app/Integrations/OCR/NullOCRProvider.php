@@ -1,0 +1,1 @@
+<?php namespace App\Integrations\OCR; use App\Integrations\Contract\OCRProviderInterface; final class NullOCRProvider implements OCRProviderInterface { public function extractText(string $filePath): array { return ["status"=>"not_configured","text"=>""]; } }

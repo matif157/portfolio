@@ -1,0 +1,1 @@
+<?php namespace App\Integrations\Contract; interface TelephonyInterface{public function call(string $to,string $from,string $script,array $context=[]):array;}

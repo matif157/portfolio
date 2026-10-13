@@ -1,0 +1,14 @@
+.env
+includes/db.php
+includes/db.php.bak
+databse file/
+*.log
+includes/err_editor/
+.DS_Store
+TempCode2.php
+*.php.bak
+livemachine/logs/
+error/
+ushrm%5Cerror*/
+ushrm_5Cerror*/
+document.pdf

@@ -1,0 +1,113 @@
+/**
+ * ══════════════════════════════════════════════════════════════════════════
+ *  Theme 5 — Focus / Eye-Comfort
+ *  Warm sepia-tinted, reduced-blue-light palette. Long-session friendly.
+ *  Supports: light | dark | auto
+ * ══════════════════════════════════════════════════════════════════════════
+ */
+
+[data-theme="focus"],
+[data-theme="focus"][data-mode="light"] {
+    --color-primary:        #0d9488;
+    --color-primary-hover:  #0f766e;
+    --color-primary-subtle: #ccfbf1;
+    --color-accent:         #14b8a6;
+    --color-success:        #10b981;
+    --color-success-subtle: #d1fae5;
+    --color-warning:        #f59e0b;
+    --color-warning-subtle: #fef3c7;
+    --color-danger:         #e11d48;
+    --color-danger-subtle:  #ffe4e6;
+    --color-info:           #0284c7;
+    --color-info-subtle:    #e0f2fe;
+    --color-bg:             #faf7f0;
+    --color-surface:        #fffdf7;
+    --color-surface-raised: #fffdf7;
+    --color-surface-sunken: #f5f1e8;
+    --color-overlay:        rgba(20, 20, 15, 0.5);
+    --sidebar-bg:           #134e4a;
+    --sidebar-text:         #5eead4;
+    --sidebar-text-hover:   #ffffff;
+    --sidebar-active-bg:    rgba(20, 184, 166, 0.2);
+    --sidebar-active-text:  #99f6e4;
+    --sidebar-border:       rgba(255,255,255,0.07);
+    --sidebar-section-text: #0f766e;
+    --sidebar-icon-color:   #0d9488;
+    --topbar-bg:            #134e4a;
+    --topbar-border:        rgba(255,255,255,0.08);
+    --topbar-input-bg:      #0f3d3a;
+    --topbar-input-border:  #1a5c58;
+    --text-primary:         #1c1a14;
+    --text-secondary:       #292620;
+    --text-muted:           #6b6454;
+    --text-placeholder:     #a8a090;
+    --text-inverse:         #fffdf7;
+    --border-color:         #e8e4d8;
+    --border-focus:         #0d9488;
+}
+
+[data-theme="focus"][data-mode="dark"] {
+    --color-primary:        #2dd4bf;
+    --color-primary-hover:  #5eead4;
+    --color-primary-subtle: rgba(45, 212, 191, 0.15);
+    --color-accent:         #14b8a6;
+    --color-success:        #34d399;
+    --color-success-subtle: rgba(52, 211, 153, 0.12);
+    --color-warning:        #fbbf24;
+    --color-warning-subtle: rgba(251, 191, 36, 0.12);
+    --color-danger:         #fb7185;
+    --color-danger-subtle:  rgba(251, 113, 133, 0.12);
+    --color-info:           #38bdf8;
+    --color-info-subtle:    rgba(56, 189, 248, 0.12);
+    --color-bg:             #111614;
+    --color-surface:        #1a2320;
+    --color-surface-raised: #222d2a;
+    --color-surface-sunken: #111614;
+    --color-overlay:        rgba(0,0,0,0.75);
+    --sidebar-bg:           #0a1512;
+    --sidebar-text:         #2d8b80;
+    --sidebar-text-hover:   #ccfbf1;
+    --sidebar-active-bg:    rgba(45, 212, 191, 0.12);
+    --sidebar-active-text:  #5eead4;
+    --sidebar-border:       rgba(255,255,255,0.04);
+    --sidebar-section-text: #1a3d38;
+    --sidebar-icon-color:   #1a5c55;
+    --topbar-bg:            #0a1512;
+    --topbar-border:        rgba(255,255,255,0.05);
+    --topbar-input-bg:      #1a2320;
+    --topbar-input-border:  #1a3d38;
+    --text-primary:         #ccfbf1;
+    --text-secondary:       #5eead4;
+    --text-muted:           #2d7a72;
+    --text-placeholder:     #1a4a44;
+    --text-inverse:         #0a1512;
+    --border-color:         #1a2d29;
+    --border-focus:         #2dd4bf;
+}
+
+@media (prefers-color-scheme: dark) {
+    [data-theme="focus"][data-mode="auto"] {
+        --color-primary:        #2dd4bf;
+        --color-primary-hover:  #5eead4;
+        --color-primary-subtle: rgba(45, 212, 191, 0.15);
+        --color-bg:             #111614;
+        --color-surface:        #1a2320;
+        --color-surface-raised: #222d2a;
+        --color-surface-sunken: #111614;
+        --sidebar-bg:           #0a1512;
+        --sidebar-text:         #2d8b80;
+        --sidebar-text-hover:   #ccfbf1;
+        --sidebar-active-bg:    rgba(45, 212, 191, 0.12);
+        --sidebar-active-text:  #5eead4;
+        --sidebar-border:       rgba(255,255,255,0.04);
+        --topbar-bg:            #0a1512;
+        --topbar-border:        rgba(255,255,255,0.05);
+        --topbar-input-bg:      #1a2320;
+        --topbar-input-border:  #1a3d38;
+        --text-primary:         #ccfbf1;
+        --text-secondary:       #5eead4;
+        --text-muted:           #2d7a72;
+        --border-color:         #1a2d29;
+        --border-focus:         #2dd4bf;
+    }
+}

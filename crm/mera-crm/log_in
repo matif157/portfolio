@@ -1,0 +1,69 @@
+ 
+?php 
+class base{
+   protected $x;//private// how protected getval setVal gives result but private doesnt  
+   //, will checl in child case as well
+    function __construct(){
+         $this->x = "dest";
+        }
+        
+ 
+
+class child extends base{
+    function child(){
+        echo "";
+    }
+
+    
+
+}
+$obj = new base();
+ 
+
+// instantiate the class correctly
+ 
+?>
+
+
+ 
+?php 
+ class base{
+   //protected $x;//private// how protected getval setVal gives result but private doesnt  
+         private $x;
+  //, will checl in child case as well
+    function __construct(){
+        $x="this is construct";
+           echo $x;        //$this->x = "dest";         
+        }
+        
+        
+        
+}
+class bases{
+function continu(){
+        $y="this is constfg";
+           echo $y;        //$this->x = "dest";         
+        }
+}
+class child extends bases{
+   function childs(){
+     // function __construct(){
+       // $z="this is construct";
+           echo $y;        //$this->x = "dest";         
+        }
+        
+    // echo "<br>bbbbb  bb "; 
+   }
+
+
+
+
+$obj = new base();
+$obj = new child();
+$obj = new bases();
+
+ 
+
+// instantiate the class correctly
+ 
+?>

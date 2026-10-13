@@ -1,0 +1,4 @@
+<?php
+require __DIR__.'/../../bootstrap/env.php';require __DIR__.'/../../app/Support/Database.php';
+$pdo=App\Support\Database::pdo();$pdo->exec("CREATE TABLE IF NOT EXISTS migrations(id INT AUTO_INCREMENT PRIMARY KEY,name VARCHAR(190) UNIQUE,applied_at DATETIME NOT NULL)");
+$files=glob(__DIR__.'/*.sql');sort($files);foreach($files as $file){$name=basename($file);$q=$pdo->prepare('SELECT 1 FROM migrations WHERE name=?');$q->execute([$name]);if($q->fetchColumn())continue;$sql=file_get_contents($file);try{$pdo->beginTransaction();$pdo->exec($sql);$i=$pdo->prepare('INSERT INTO migrations(name,applied_at) VALUES(?,NOW())');$i->execute([$name]);$pdo->commit();echo "Applied $name\n";}catch(Throwable $e){if($pdo->inTransaction())$pdo->rollBack();fwrite(STDERR,"Failed $name: {$e->getMessage()}\n");exit(1);}}

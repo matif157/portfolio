@@ -1,0 +1,4 @@
+<?php
+namespace App\Services;
+use App\Support\Database;use App\Support\TenantContext;
+final class ExceptionEngine { public function raise(string $type,string $title,string $description,?int $clientId=null,?int $clientServiceId=null,?int $workflowId=null,string $severity='medium'):int{$s=Database::pdo()->prepare('INSERT INTO exceptions(tenant_id,client_id,client_service_id,workflow_execution_id,type,severity,title,description,created_at) VALUES(?,?,?,?,?,?,?,?,NOW())');$s->execute([TenantContext::id(),$clientId,$clientServiceId,$workflowId,$type,$severity,$title,$description]);return (int)Database::pdo()->lastInsertId();} public function resolve(int $id,string $resolution):void{$s=Database::pdo()->prepare("UPDATE exceptions SET status='resolved',resolution=?,resolved_at=NOW() WHERE id=? AND tenant_id=?");$s->execute([$resolution,$id,TenantContext::id()]);}}

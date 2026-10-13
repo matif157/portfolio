@@ -1,0 +1,35 @@
+# Environment
+.env
+.env.*
+config.local.php
+
+# Database
+*.sql
+database/
+
+# Uploads
+uploads/
+Uploads/
+
+# Vendor
+vendor/
+
+# Node
+node_modules/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Debug files
+_bom_*
+_diag_*
+_f_*
+_fn_*
+_helpers.txt
+_schema_*
+_srv*

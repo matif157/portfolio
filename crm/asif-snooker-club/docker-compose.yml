@@ -1,0 +1,45 @@
+services:
+  app:
+    build: .
+    container_name: asif-snooker-club
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      APP_NAME: "ASIF SNOOKER CLUB"
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: http://localhost:8080
+      APP_TIMEZONE: Asia/Karachi
+      APP_CURRENCY: Rs
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: asif_snooker_club
+      DB_USER: asif
+      DB_PASS: asif_secret
+      ADMIN_EMAIL: admin@asifclub.pk
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.0
+    container_name: asif-snooker-club-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_secret
+      MYSQL_DATABASE: asif_snooker_club
+      MYSQL_USER: asif
+      MYSQL_PASSWORD: asif_secret
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot_secret"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  db_data:

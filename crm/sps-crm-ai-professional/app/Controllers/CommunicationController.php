@@ -1,0 +1,4 @@
+<?php
+namespace App\Controllers;
+use App\Support\{Auth,View,Request,Response,Csrf};use App\Services\Communications\CommunicationService;use App\Repositories\CommunicationRepository;
+final class CommunicationController { public function index():void{Auth::requireLogin();View::render('communications/index',['rows'=>(new CommunicationRepository)->all()]);} public function queue():void{Auth::requireLogin();$r=new Request();if(!Csrf::check($r->input('_csrf')))Response::json(['error'=>'csrf'],419);$id=(new CommunicationService)->queue((int)$r->input('client_id'),(string)$r->input('channel'),(string)$r->input('body'),$r->input('subject'),$r->input('client_service_id')?(int)$r->input('client_service_id'):null);Response::json(['success'=>true,'id'=>$id]);} public function send($id):void{Auth::requireLogin();Response::json((new CommunicationService)->send((int)$id));}}

@@ -1,0 +1,359 @@
+/**
+ * gravityh CRM — Theme Packs
+ * Five built-in themes, each with Light + Dark token sets.
+ * Loaded AFTER design-tokens.css: themes override semantic tokens only.
+ * Scope: html[data-theme="key"]; dark variants: html[data-mode="dark"].
+ * "Auto" color mode is resolved to light|dark by app.js via OS preference.
+ *
+ * Theme keys: professional | aurora | sps | focus | studio
+ */
+
+/* ============================================================
+   SHARED DARK-MODE REMAP
+   Semantic surfaces/text/borders for dark mode across all themes.
+   Per-theme dark blocks below refine primary/accent/sidebar.
+   ============================================================ */
+html[data-mode="dark"] {
+  --color-text: #f4f4f5;
+  --color-text-secondary: #a3a3a4;
+  --color-text-muted: #71717a;
+  --color-text-on-primary: #ffffff;
+
+  --color-bg: #0f1117;
+  --color-bg-subtle: #14161d;
+  --color-surface: #171a22;
+  --color-surface-elevated: #1e222c;
+  --color-surface-hover: #232734;
+
+  --color-border: #2a2f3c;
+  --color-border-subtle: #222632;
+  --color-overlay: rgba(0, 0, 0, 0.65);
+
+  --color-input-bg: #1b1f29;
+  --color-input-border: #2a2f3c;
+
+  --color-card-bg: #171a22;
+  --color-card-border: #222632;
+  --color-card-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --color-card-shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.5);
+
+  --color-header-bg: rgba(23, 26, 34, 0.9);
+  --color-header-border: #222632;
+
+  --color-success-bg: rgba(34, 197, 94, 0.15);
+  --color-warning-bg: rgba(234, 179, 8, 0.15);
+  --color-danger-bg: rgba(239, 68, 68, 0.15);
+  --color-info-bg: rgba(6, 182, 212, 0.15);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.55);
+  --shadow-xl: 0 20px 48px rgba(0, 0, 0, 0.6);
+}
+
+/* ============================================================
+   THEME 1 — PROFESSIONAL CORE (default corporate)
+   Clean, neutral, precise. Light values match :root defaults.
+   ============================================================ */
+html[data-theme="professional"] {
+  --color-primary: var(--color-blue-600);
+  --color-primary-hover: var(--color-blue-700);
+  --color-primary-active: var(--color-blue-800);
+  --color-primary-bg: var(--color-blue-50);
+  --color-primary-outline: var(--color-blue-200);
+  --color-accent: var(--color-blue-500);
+  --color-accent-hover: var(--color-blue-600);
+
+  --color-sidebar-bg: #1e293b;
+  --color-sidebar-text: #cbd5e1;
+  --color-sidebar-text-hover: #f1f5f9;
+  --color-sidebar-hover-bg: rgba(255, 255, 255, 0.06);
+  --color-sidebar-active: #93c5fd;
+  --color-sidebar-active-bg: rgba(59, 130, 246, 0.18);
+
+  --color-header-bg: rgba(255, 255, 255, 0.92);
+  --color-header-border: var(--color-border-subtle);
+}
+
+html[data-theme="professional"][data-mode="dark"] {
+  --color-primary: #60a5fa;
+  --color-primary-hover: #3b82f6;
+  --color-primary-active: #2563eb;
+  --color-primary-bg: rgba(96, 165, 250, 0.14);
+  --color-primary-outline: #2c4a7c;
+
+  --color-sidebar-bg: #151820;
+  --color-sidebar-active: #60a5fa;
+  --color-sidebar-active-bg: rgba(96, 165, 250, 0.15);
+}
+
+/* ============================================================
+   THEME 2 — AURORA MODERN (premium modern SaaS)
+   Indigo/violet primary, soft indigo-tinted shadows, larger radii.
+   ============================================================ */
+html[data-theme="aurora"] {
+  --color-primary: #6366f1;
+  --color-primary-hover: #4f46e5;
+  --color-primary-active: #4338ca;
+  --color-primary-bg: #eef2ff;
+  --color-primary-outline: #c7d2fe;
+  --color-accent: #8b5cf6;
+  --color-accent-hover: #7c3aed;
+
+  --color-bg: #f6f7fb;
+  --color-bg-subtle: #eef0f7;
+  --color-surface-hover: #f2f3f9;
+  --color-border: #e3e5ef;
+  --color-border-subtle: #eceef6;
+
+  --color-sidebar-bg: #191b29;
+  --color-sidebar-text: #b9bccc;
+  --color-sidebar-text-hover: #f1f2f8;
+  --color-sidebar-hover-bg: rgba(255, 255, 255, 0.07);
+  --color-sidebar-active: #a5b4fc;
+  --color-sidebar-active-bg: rgba(129, 140, 248, 0.16);
+
+  --color-header-bg: rgba(255, 255, 255, 0.85);
+  --color-header-border: var(--color-border-subtle);
+
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --card-radius: var(--radius-lg);
+  --color-card-shadow: 0 1px 2px rgba(23, 23, 58, 0.06), 0 8px 24px rgba(23, 23, 58, 0.06);
+  --color-card-shadow-hover: 0 2px 4px rgba(23, 23, 58, 0.08), 0 12px 32px rgba(23, 23, 58, 0.1);
+  --shadow-md: 0 4px 16px rgba(23, 23, 58, 0.1);
+  --shadow-lg: 0 12px 40px rgba(23, 23, 58, 0.14);
+}
+
+html[data-theme="aurora"][data-mode="dark"] {
+  --color-primary: #818cf8;
+  --color-primary-hover: #6366f1;
+  --color-primary-active: #4f46e5;
+  --color-primary-bg: rgba(129, 140, 248, 0.16);
+  --color-primary-outline: #3b3f68;
+  --color-accent: #a78bfa;
+
+  --color-bg: #101219;
+  --color-bg-subtle: #151723;
+  --color-surface: #171a26;
+  --color-surface-elevated: #1b1e2d;
+  --color-surface-hover: #232638;
+  --color-border: #272b3d;
+  --color-border-subtle: #202435;
+  --color-card-bg: #171a26;
+  --color-card-border: #202435;
+  --color-input-bg: #1b1e2d;
+  --color-input-border: #272b3d;
+  --color-header-bg: rgba(23, 26, 38, 0.9);
+  --color-header-border: #202435;
+
+  --color-sidebar-bg: #12141d;
+  --color-sidebar-active-bg: rgba(165, 180, 252, 0.18);
+}
+
+/* ============================================================
+   THEME 3 — SPS EXECUTIVE (company brand)
+   Deep professional blue drives structure; refined gold used
+   selectively for highlights, milestones, selected states.
+   ============================================================ */
+html[data-theme="sps"] {
+  --color-primary: #1e40af;
+  --color-primary-hover: #1e3a8a;
+  --color-primary-active: #172554;
+  --color-primary-bg: #e8edfa;
+  --color-primary-outline: #b6c4f0;
+  --color-accent: var(--color-gold-600);
+  --color-accent-hover: var(--color-gold-700);
+
+  --color-bg: #f2f5fa;
+  --color-bg-subtle: #e9edf5;
+  --color-surface-hover: #eef1f8;
+  --color-border: #d5dbe8;
+  --color-border-subtle: #e2e7f0;
+
+  --color-sidebar-bg: #0f2440;
+  --color-sidebar-text: #c7d2e4;
+  --color-sidebar-text-hover: #ffffff;
+  --color-sidebar-hover-bg: rgba(255, 255, 255, 0.07);
+  --color-sidebar-active: #f0d27a;
+  --color-sidebar-active-bg: rgba(212, 167, 44, 0.16);
+
+  --color-header-bg: rgba(255, 255, 255, 0.94);
+  --color-header-border: var(--color-border-subtle);
+}
+
+html[data-theme="sps"][data-mode="dark"] {
+  --color-primary: #5b8def;
+  --color-primary-hover: #3b6fd4;
+  --color-primary-active: #2f5bb8;
+  --color-primary-bg: rgba(91, 141, 239, 0.16);
+  --color-primary-outline: #2c4370;
+  --color-accent: #e0b94f;
+  --color-accent-hover: #f0c94b;
+
+  --color-bg: #10151f;
+  --color-bg-subtle: #151b27;
+  --color-surface: #161d2a;
+  --color-surface-elevated: #1b2333;
+  --color-surface-hover: #202939;
+  --color-border: #253046;
+  --color-border-subtle: #1d2637;
+  --color-card-bg: #161d2a;
+  --color-card-border: #1d2637;
+  --color-input-bg: #1b2333;
+  --color-input-border: #253046;
+  --color-header-bg: rgba(22, 29, 42, 0.92);
+  --color-header-border: #1d2637;
+
+  --color-sidebar-bg: #0c1a30;
+  --color-sidebar-active: #e0b94f;
+  --color-sidebar-active-bg: rgba(224, 185, 79, 0.14);
+}
+
+/* SPS gold accents — used sparingly for premium emphasis */
+html[data-theme="sps"] .accent-gold { color: var(--color-accent); }
+html[data-theme="sps"] .badge-milestone {
+  background: var(--color-accent);
+  color: #1c1400;
+  font-weight: 600;
+}
+html[data-theme="sps"] .sidebar .side-link.active i { color: var(--color-accent); }
+
+/* ============================================================
+   THEME 4 — FOCUS / EYE-COMFORT WORKSPACE
+   Desaturated palette, warm paper surfaces, soft borders,
+   minimal shadows, slower calmer motion, relaxed line height.
+   ============================================================ */
+html[data-theme="focus"] {
+  --color-primary: #4f7370;
+  --color-primary-hover: #436461;
+  --color-primary-active: #385552;
+  --color-primary-bg: #e7efee;
+  --color-primary-outline: #bfd4d1;
+  --color-accent: #6b7f6a;
+  --color-accent-hover: #5d704f;
+
+  --color-text: #34332e;
+  --color-text-secondary: #5d5c54;
+  --color-text-muted: #7c7a6f;
+
+  --color-bg: #f4f3ef;
+  --color-bg-subtle: #eceae4;
+  --color-surface: #fbfaf6;
+  --color-surface-elevated: #fbfaf6;
+  --color-surface-hover: #f0eee7;
+  --color-border: #d9d5ca;
+  --color-border-subtle: #e4e1d7;
+
+  --color-success: #4d7c62;
+  --color-success-bg: rgba(77, 124, 98, 0.12);
+  --color-warning: #a87728;
+  --color-warning-bg: rgba(168, 119, 40, 0.12);
+  --color-danger: #b05656;
+  --color-danger-bg: rgba(176, 86, 86, 0.12);
+  --color-info: #4c7390;
+  --color-info-bg: rgba(76, 115, 144, 0.12);
+
+  --color-sidebar-bg: #ece9e1;
+  --color-sidebar-text: #4b4a42;
+  --color-sidebar-text-hover: #23221e;
+  --color-sidebar-hover-bg: rgba(0, 0, 0, 0.05);
+  --color-sidebar-active: #3d5a58;
+  --color-sidebar-active-bg: rgba(79, 115, 112, 0.14);
+
+  --color-header-bg: rgba(251, 250, 246, 0.94);
+  --color-header-border: var(--color-border-subtle);
+
+  --line-height-relaxed: 1.65;
+  --motion-fast: 0.08s;
+  --motion-normal: 0.15s;
+  --motion-slow: 0.25s;
+
+  --shadow-sm: 0 0 0 rgba(0, 0, 0, 0);
+  --shadow-md: 0 2px 8px rgba(52, 51, 46, 0.06);
+  --shadow-lg: 0 6px 20px rgba(52, 51, 46, 0.08);
+  --color-card-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  --color-card-shadow-hover: 0 2px 8px rgba(52, 51, 46, 0.07);
+}
+
+html[data-theme="focus"][data-mode="dark"] {
+  --color-primary: #7fa5a2;
+  --color-primary-hover: #6d928f;
+  --color-primary-active: #5b807d;
+  --color-primary-bg: rgba(127, 165, 162, 0.14);
+  --color-primary-outline: #3c5351;
+
+  --color-text: #d6d4cc;
+  --color-text-secondary: #a3a199;
+  --color-text-muted: #807e74;
+
+  --color-bg: #1b1c19;
+  --color-bg-subtle: #21221f;
+  --color-surface: #23241f;
+  --color-surface-elevated: #262722;
+  --color-surface-hover: #2b2c26;
+  --color-border: #35362f;
+  --color-border-subtle: #2c2d27;
+  --color-card-bg: #23241f;
+  --color-card-border: #2c2d27;
+  --color-input-bg: #262722;
+  --color-input-border: #35362f;
+  --color-header-bg: rgba(35, 36, 31, 0.92);
+  --color-header-border: #2c2d27;
+
+  --color-sidebar-bg: #21221f;
+  --color-sidebar-text: #c2c0b8;
+  --color-sidebar-text-hover: #ece9e1;
+  --color-sidebar-active: #9fc0bd;
+  --color-sidebar-active-bg: rgba(127, 165, 162, 0.12);
+
+  --color-success: #6f9b81;
+  --color-warning: #c29a55;
+  --color-danger: #c47a7a;
+  --color-info: #7296b3;
+}
+
+/* Focus theme calms decorative effects */
+html[data-theme="focus"] .card,
+html[data-theme="focus"] .metric-card { box-shadow: none; }
+html[data-theme="focus"] .card:hover { box-shadow: none; transform: none; }
+
+/* ============================================================
+   THEME 5 — STUDIO CUSTOM
+   Fully user-defined tokens injected at runtime by ThemeEngine
+   (core/ThemeEngine.php) as inline CSS on html[data-theme="studio"].
+   Values here are safe fallbacks used before first save.
+   ============================================================ */
+html[data-theme="studio"] {
+  --color-primary: #0e9488;
+  --color-primary-hover: #0d7d72;
+  --color-primary-active: #0b675e;
+  --color-primary-bg: #e0f2f0;
+  --color-primary-outline: #99d6cf;
+  --color-accent: #f59e0b;
+  --color-accent-hover: #d97706;
+}
+
+html[data-theme="studio"][data-mode="dark"] {
+  --color-primary: #2dd4bf;
+  --color-primary-hover: #14b8a6;
+  --color-primary-active: #0d9488;
+  --color-primary-bg: rgba(45, 212, 191, 0.14);
+  --color-primary-outline: #134e4a;
+  --color-accent: #fbbf24;
+  --color-accent-hover: #f59e0b;
+}
+
+/* ============================================================
+   MODE / MOTION HELPERS
+   ============================================================ */
+/* Reduced motion preference kills animations globally */
+html[data-motion="reduced"] *,
+html[data-motion="reduced"] *::before,
+html[data-motion="reduced"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+

@@ -1,0 +1,5 @@
+SPS CRM ENTERPRISE COMPLETION BUILD
+Database: gpt
+Folder: newgpt
+Architecture: PHP + MySQL/MariaDB + XAMPP
+Master sidebar + dashboard + enterprise schema + CRUD routing + security/automation/AI foundations

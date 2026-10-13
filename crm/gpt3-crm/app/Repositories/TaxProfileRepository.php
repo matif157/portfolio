@@ -1,0 +1,1 @@
+<?php namespace App\Repositories; use App\Core\Database; final class TaxProfileRepository{public function findByClient(int $id):?array{$s=Database::pdo()->prepare('SELECT * FROM tax_profiles WHERE client_id=?');$s->execute([$id]);$r=$s->fetch();return $r?:null;}}

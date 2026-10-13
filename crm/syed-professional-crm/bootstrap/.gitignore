@@ -1,0 +1,27 @@
+# =====================================================
+# SPS CRM - Git Ignore
+# =====================================================
+
+# Environment secrets
+.env
+.env.*
+
+# Allow example configuration
+!.env.example
+
+# Logs
+/storage/logs/*
+/storage/framework/*
+/storage/cache/*
+
+# Temporary files
+*.tmp
+*.temp
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/

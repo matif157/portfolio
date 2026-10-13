@@ -1,0 +1,1 @@
+<?php namespace App\Integrations\Messaging; use App\Integrations\Contract\MessagingInterface; final class EmailAdapter implements MessagingInterface{public function send(string $to,string $message,array $meta=[]):array{return ['status'=>'queued','channel'=>'email','to'=>$to,'subject'=>$meta['subject']??'SPS CRM'];}}

@@ -1,0 +1,4 @@
+<?php
+namespace App\Services\Integrations;
+use App\Support\Database;use App\Support\TenantContext;use App\Support\Auth;
+final class AuthoritySubmissionService { public function prepare(int $filingId):array{$s=Database::pdo()->prepare('SELECT * FROM filing_records WHERE tenant_id=? AND id=?');$s->execute([TenantContext::id(),$filingId]);$f=$s->fetch();if(!$f)throw new \RuntimeException('Filing not found');return ['status'=>'prepared','filing'=>$f,'requires_approval'=>true];} public function submit(int $filingId,string $authority):array{$p=$this->prepare($filingId);$s=Database::pdo()->prepare('SELECT COUNT(*) FROM approvals WHERE tenant_id=? AND client_service_id=? AND status=\'approved\'');$s->execute([TenantContext::id(),$p['filing']['client_service_id']]);if(!(int)$s->fetchColumn())return ['status'=>'blocked','reason'=>'Required approval gate is not satisfied'];return ['status'=>'blocked','reason'=>'No configured official adapter for '.$authority];}}

@@ -1,0 +1,3 @@
+<?php
+namespace App\Services; use App\Core\Database;use App\Core\Auth;
+final class ApprovalService{public function request(array $d):int{$s=Database::pdo()->prepare('INSERT INTO approvals(tenant_id,client_id,service_id,project_id,approval_type,status,requested_by,reason,requested_at) VALUES(1,?,?,?,?,?,?,?,NOW())');$s->execute([$d['client_id']?:null,$d['service_id']?:null,$d['project_id']?:null,$d['approval_type'],$d['status']??'pending',Auth::id(),$d['reason']??null]);return (int)Database::pdo()->lastInsertId();}public function decide(int $id,string $status,string $reason=''):void{Database::pdo()->prepare('UPDATE approvals SET status=?,approved_by=?,reason=?,decided_at=NOW() WHERE id=?')->execute([$status,Auth::id(),$reason,$id]);}}

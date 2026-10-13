@@ -1,0 +1,64 @@
+================================================
+PHASE 5 — Invoice Template + Clients + Customizer Link
+================================================
+
+FILES TO COPY INTO YOUR EXISTING CRM:
+
+1. includes/settings_helper.php     →  includes/
+2. invoices/print.php               →  invoices/
+3. clients/create.php               →  clients/  (REPLACE existing)
+4. clients/edit.php                 →  clients/  (REPLACE existing)
+
+------------------------------------------------
+ADD PRINT BUTTON on invoices/view.php
+------------------------------------------------
+
+In invoices/view.php, inside the action buttons area (near Edit / Back),
+add this button:
+
+<?php if (has_permission('Invoice', 'print')): ?>
+<a href="print.php?id=<?= $id ?>" class="btn btn-outline-dark btn-sm" target="_blank">
+    <i class="bi bi-printer"></i> Print / PDF
+</a>
+<?php endif; ?>
+
+------------------------------------------------
+LOAD SETTINGS HELPER
+------------------------------------------------
+
+In includes/log_in.php (or at top of protected pages), add:
+
+require_once __DIR__ . '/settings_helper.php';
+
+------------------------------------------------
+CUSTOMIZER CONNECTION
+------------------------------------------------
+
+- Company name, address, phone, email on the invoice PDF
+  come from Customizer settings (settings table).
+- Edit them under: Customizer menu
+- After saving Customizer, new invoice prints use the updated info.
+
+------------------------------------------------
+CLIENT TYPES
+------------------------------------------------
+
+- create.php and edit.php now have Client Type dropdown
+- Requires update_tables.sql from previous update package
+  (client_types table + members.client_type_id column)
+
+------------------------------------------------
+PERMISSION
+------------------------------------------------
+
+Ensure "Invoice → print" permission exists (already in original schema).
+Super Admin has it by default.
+
+------------------------------------------------
+HOW TO PRINT / SAVE PDF
+------------------------------------------------
+
+1. Open any invoice → View
+2. Click "Print / PDF"
+3. Browser print dialog → Save as PDF or Print
+   (Layout matches your Syed Professional Services sample)

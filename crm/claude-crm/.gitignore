@@ -1,0 +1,16 @@
+.env
+/vendor/
+/uploads/
+/logs/
+*.log
+*.sqlite
+*.sqlite3
+/config.php
+/db.php
+auth.php
+secure_area.php
+bank_statements.php
+Qwen.php
+desktop.ini
+.phpunit.result.cache
+composer.lock

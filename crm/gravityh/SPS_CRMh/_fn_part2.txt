@@ -1,0 +1,196 @@
+﻿/**
+ * CSRF Protection
+ */
+function csrf_token() {
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+function csrf_field() {
+    return '<input type="hidden" name="csrf_token" value="' . csrf_token() . '">';
+}
+
+function verify_csrf() {
+    $token = $_POST['csrf_token'] ?? $_GET['csrf_token'] ?? '';
+    if (empty($token) || !hash_equals($_SESSION['csrf_token'] ?? '', $token)) {
+        log_activity('CSRF Violation', 'security', 0, 'Invalid or missing CSRF token attempted', 'stage2_sensitive');
+        die('<div style="font-family:sans-serif; padding:40px; text-align:center;"><h2>403 Forbidden - Security Token Validation Failed</h2><p><a href="javascript:history.back()">Go Back</a></p></div>');
+    }
+}
+
+/**
+ * Activity & Audit Logging Engine
+ */
+function log_activity($action, $module, $entity_id, $description, $stage = 'stage1_normal', $changes = []) {
+    global $pdo;
+    $user_id = $_SESSION['user_id'] ?? null;
+    
+    try {
+        $stmt = $pdo->prepare("INSERT INTO activities (user_id, action, module, entity_id, description, stage) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$user_id, $action, $module, $entity_id, $description, $stage]);
+        $activity_id = $pdo->lastInsertId();
+        
+        // Record field-level changes if stage3 data change
+        if (!empty($changes) && is_array($changes)) {
+            $stmtChange = $pdo->prepare("INSERT INTO activity_changes (activity_id, field_name, old_value, new_value) VALUES (?, ?, ?, ?)");
+            foreach ($changes as $field => $vals) {
+                $stmtChange->execute([$activity_id, $field, $vals['old'] ?? null, $vals['new'] ?? null]);
+            }
+        }
+    } catch (Exception $ex) {
+        // Fail silently for activity log writes to avoid breaking primary operation
+        error_log("Activity logging error: " . $ex->getMessage());
+    }
+}
+
+/**
+ * Bell Notification System Helper
+ */
+function create_notification($user_id, $title, $message, $link = null, $stage = 'info', $module = 'system') {
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("INSERT INTO notifications (user_id, title, message, link, stage, module) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$user_id, $title, $message, $link, $stage, $module]);
+    } catch (Exception $ex) {
+        error_log("Notification creation error: " . $ex->getMessage());
+    }
+}
+
+/**
+ * Currency & Date Formatters
+ */
+function format_currency($amount) {
+    return '$' . number_format((float)$amount, 2);
+}
+
+function format_date($date_str) {
+    if (empty($date_str)) return '-';
+    return date('M j, Y', strtotime($date_str));
+}
+
+function format_datetime($dt_str) {
+    if (empty($dt_str)) return '-';
+    return date('M j, Y g:i A', strtotime($dt_str));
+}
+
+/**
+ * Settings Helper
+ */
+function get_setting($key, $default = '') {
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = ?");
+        $stmt->execute([$key]);
+        $val = $stmt->fetchColumn();
+        return $val !== false ? $val : $default;
+    } catch (Exception $ex) {
+        return $default;
+    }
+}
+
+function get_month_name($month_num) {
+    $dateObj = DateTime::createFromFormat('!m', $month_num);
+    return $dateObj ? $dateObj->format('F') : 'Month ' . $month_num;
+}
+
+/**
+ * Twilio Call & SMS Dispatch Helper Engine
+ */
+function send_twilio_sms($client_id, $message_body) {
+    global $pdo;
+    $sid = get_setting('twilio_account_sid', '');
+    $token = get_setting('twilio_auth_token', '');
+    $from_num = get_setting('twilio_phone_number', '');
+    
+    // Fetch Client Phone Number
+    $stmtC = $pdo->prepare("SELECT phone, first_name, company_name FROM clients WHERE id = ?");
+    $stmtC->execute([$client_id]);
+    $client = $stmtC->fetch();
+    
+    if (!$client || empty($client['phone'])) {
+        return ['success' => false, 'error' => 'Client phone number not found.'];
+    }
+    
+    $to_num = $client['phone'];
+    $status = 'sent';
+    $external_sid = 'SMS-' . bin2hex(random_bytes(8));
+    
+    if (!empty($sid) && !empty($token) && !empty($from_num)) {
+        // Execute Real Twilio API cURL POST Call
+        $url = "https://api.twilio.com/2010-04-01/Accounts/$sid/Messages.json";
+        $data = [
+            'From' => $from_num,
+            'To' => $to_num,
+            'Body' => $message_body
+        ];
+        
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERPWD, "$sid:$token");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        $resp = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        
+        $json = json_decode($resp, true);
+        if ($http_code == 201 && isset($json['sid'])) {
+            $external_sid = $json['sid'];
+            $status = 'delivered';
+        } else {
+            $status = 'failed';
+        }
+    }
+    
+    // Log to Communications Table (Recorded in Client Profile)
+    $stmtIns = $pdo->prepare("INSERT INTO communications (client_id, channel, subject, message_body, direction, status, external_sid) VALUES (?, 'sms', 'Twilio SMS Notification', ?, 'outbound', ?, ?)");
+    $stmtIns->execute([$client_id, $message_body, $status, $external_sid]);
+    
+    return ['success' => ($status !== 'failed'), 'sid' => $external_sid];
+}
+
+function send_twilio_call($client_id, $call_script) {
+    global $pdo;
+    $sid = get_setting('twilio_account_sid', '');
+    $token = get_setting('twilio_auth_token', '');
+    $from_num = get_setting('twilio_phone_number', '');
+    
+    $stmtC = $pdo->prepare("SELECT phone, first_name, company_name FROM clients WHERE id = ?");
+    $stmtC->execute([$client_id]);
+    $client = $stmtC->fetch();
+    
+    if (!$client || empty($client['phone'])) {
+        return ['success' => false, 'error' => 'Client phone number not found.'];
+    }
+    
+    $to_num = $client['phone'];
+    $status = 'completed';
+    $external_sid = 'CALL-' . bin2hex(random_bytes(8));
+    $duration = rand(45, 120); // Simulated call duration in seconds
+    
+    if (!empty($sid) && !empty($token) && !empty($from_num)) {
+        // Execute Real Twilio Call API cURL POST Call
+        $url = "https://api.twilio.com/2010-04-01/Accounts/$sid/Calls.json";
+        $twiml = '<Response><Say voice="alice">' . htmlspecialchars($call_script) . '</Say></Response>';
+        $data = [
+            'From' => $from_num,
+            'To' => $to_num,
+            'Twiml' => $twiml
+        ];
+        
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERPWD, "$sid:$token");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        $resp = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        
+        $json = json_decode($resp, true);
+        if ($http_code == 201 && isset($json['sid'])) {
+            $external_sid = $json['sid'];
+            $status = 'completed';
+        } else {

@@ -1,0 +1,308 @@
+# Asif Snooker Club — Club Management CRM
+
+A complete, production-oriented snooker club management system for **Asif Snooker Club**,
+D Ground, Faisalabad. Digitizes the handwritten daily register into a real-time CRM.
+
+## Features
+
+- **Table Command Center** — live visual grid of all tables with real-time timers, statuses (Available / Occupied / Reserved / Maintenance) and one-click start/end
+- **Operational dashboard** — KPI cards with day-over-day deltas (revenue, sessions, tables, profit), this-week vs last-week strip, **Needs Attention** alerts (unpaid sessions, arriving bookings, long-running tables, maintenance, **member booking requests awaiting approval**, tables with a live camera shortcut), payments-by-method donut, top tables today, and one-click quick actions (start session / booking / payment / expense)
+- **Sessions & Billing** — automatic time tracking, rate calculation (hourly/frame/VIP/night), min charge, extra charges, discounts
+- **Customers CRM** — profiles with visit/revenue history, **click-to-call** (`tel:`) and **WhatsApp** (`wa.me`) buttons, **CSV import & export**, per-session payment collection incl. partial
+- **Bookings** — table availability checks, status workflow (Requested → Confirmed → Arrived → Active → Completed), **auto-activation** on session start/end, stale bookings auto-expire, **advance deposit at booking** and **"pay later"** record/approval from the bookings page
+- **Payments** — Cash, **JazzCash** (with transaction reference), Bank Transfer, Card; advance deposits and later payments are recorded against the booking, outstanding balance tracking; printable receipts
+- **Expenses & Finance** — categorized expenses (Electricity, Labour, Rent, etc.) with approval workflow (staff record → owner/finance approve), **monthly budgets per category** (Settings → Expense Budgets) with live **Budget vs Spend** progress bars + over-budget highlights and a **pending-approvals overview** on the Expenses screen
+- **Daily Closing** — collected by method, sessions billed, expenses, outstanding, with print & WhatsApp share
+- **Analytics** — revenue by hour (peak staffing), table utilization, top customers, daily revenue vs expenses, sessions-by-hour, category & booking-status breakdowns (7–90 day ranges)
+- **Sessions history** — filterable by date range, table, payment status
+- **WhatsApp reminders** — scheduled booking & outstanding-balance reminders written to `/reminders` center + auto-batched by hourly cron (`database/remind.php --run`), zero API cost via dedicated wa.me links
+- **Customer custom fields** — up to 5 configurable profile fields (labels + per-customer values, Settings → Customer Fields)
+- **Peak & Night rate automation** — configurable peak/off-peak/night time bands; sessions started in a peak band auto-bill at the peak multiplier, night band when your table has a `night_rate`
+- **Session e-invoices** — printable session invoices (invoice no., billed-to, line items, paid/balance-due)
+- **Payment receipts** — print-ready receipts with amount in words
+- **Booking calendar** — monthly grid with per-table chips and prev/next navigation
+- **Tournament manager** — single-elimination knockout tournaments: entry fees, prizes and best-of format; player registration from the customers directory (or walk-ins), seeded bracket generation with automatic byes, results recorded per match with auto-advancing rounds and a highlighted champion
+- **Self-hosted assets** — Alpine.js, Chart.js, hls.js and the Tailwind Play runtime are vendored under `public/assets/vendor`; interactive forms, charts, CCTV live mode and all styling work with zero CDN dependency
+- **Tunnel-friendly URLs** — generated links/redirects derive from the forwarded public host (`X-Forwarded-Host` + `X-Forwarded-Proto`), so the app works cleanly behind ngrok or any reverse proxy
+- **Follow-up & Recovery center** — outstanding customers + missed bookings with one-tap WhatsApp reminders
+- **Audit log** — full action history (expense approvals, payments, sessions, etc.) with filters
+- **WhatsApp Broadcast center** — audience-targeted (active / outstanding / recent / VIP) message previews with personalized links & copy-all
+- **Export/Import toolkit** — one-click **CSV downloads** for sessions, bookings (single day or any date range), payments and expenses (respecting each page's active filters); customer CSV import/export and full SQL backup/restore round out data portability
+- **P&L report** — monthly revenue vs expenses, net profit, daily chart, method/category breakdowns + WhatsApp share
+- **Customer self-service portal** (`/portal`) — PIN-protected member dashboard: balance, **table booking requests**, upcoming bookings, recent sessions and payments
+- **Automated backups** — CLI `database/backup.php` + in-app backup manager (download/restore-ready SQL dumps, keeps last 20)
+- **Notifications bell** — live alerts for full tables, today's bookings, unpaid sessions
+- **Real-time updates** — live dashboard chart (real data), KPI auto-polling every 15s, lightweight AJAX polling (shared-hosting friendly) + optional SSE endpoints
+- **RBAC** — Owner, Admin, ECO, Counter, Staff, Auditor roles with granular permissions, editable per-role permission matrix (Owner/Admin locked full-access) including CCTV view/manage
+- **CCTV live grid** — `/cctv` browser-based live camera wall fed by a local media server (go2rtc/mediamtx); camera registry with name, location, RTSP source and stream names, **each camera assignable to a table** (shown as a badge on the tile and as a shortcut on the dashboard table grid), edit-in-place from the wall, enabled/disabled per camera
+- **Visual customizer** — club accent colour (swatches + custom picker) flows through buttons, badges, nav, charts; per-user **Dark / Light / Auto** theme persisted server-side
+- **Premium dark UI** — responsive sidebar, notifications bell, snooker-branded login (D Ground, Faisalabad)
+
+## Requirements
+
+- PHP 8.2+ (`pdo_mysql` extension)
+- MySQL 8 / MariaDB 10.4+
+- Composer
+- Any web server (Apache/Nginx) or the PHP built-in server
+
+## Installation
+
+```bash
+# 1. Clone & install
+git clone https://github.com/matif157/asif-snooker-club.git
+cd asif-snooker-club
+composer install --no-dev --optimize-autoloader
+
+# 2. Configure environment
+cp .env.example .env
+#    edit .env with your DB credentials & club details
+
+# 3. Run the installer (creates DB, tables, seed data, owner account)
+php database/install.php
+
+# 4. Serve
+cd public
+php -S localhost:8000
+```
+
+Then open `http://localhost:8000` and sign in with the owner account you created.
+
+> For Apache: point `DocumentRoot` to the `public/` folder.
+> For Nginx: configure root to `public/` with `index index.php` and `try_files $uri $uri/ /index.php?$query_string;`.
+
+### Laravel Herd (macOS)
+
+If you use [Laravel Herd](https://herd.laravel.com), the project is already linked as
+a parked site at **http://asif-snooker-club.test**:
+
+```bash
+# Link (or re-link) the project manually
+cd "/path/to/asif-snooker-club"
+herd link              # site becomes asif-snooker-club.test
+herd stop && herd start
+```
+
+- Herd serves the `public/` folder automatically (Laravel-style driver detection).
+- `herd link` sets `APP_URL` in `.env` for you.
+- PHP 8.4 is the recommended runtime (Herd's default `herd.sock` → `herd84.sock`).
+- The bundled CLI resolver needs a `php` entry in Herd's bin — symlinked once with
+  `ln -sf php84 php` inside `~/Library/Application Support/Herd/bin`.
+
+## Default Login
+
+Create the owner account during install (`php database/install.php`). Demo accounts on the dev database:
+
+| Role    | Email                | Password      |
+|---------|----------------------|---------------|
+| Owner   | `admin@asifclub.pk`  | `Owner@2026`  |
+| Admin   | `dev@asifclub.pk`    | `Dev@2026`    |
+| Counter | `counter@asifclub.pk`| `Counter@2026`|
+| Counter | `shan@gmail.com`     | `Counter@2026`|
+
+## Staff Training Guide (Urdu)
+
+`docs/training-urdu/CRM-Asaan-Rehnuma-Urdu.pdf` — a 13-page, picture-based Urdu guide
+(Nastaliq headings + simple Roman Urdu) for counter staff: login, dashboard, booking a
+table, starting/ending a session, taking payment, and recording expenses. Every step is
+shown on a real annotated screenshot with numbered red guide-boxes. Regenerate it with
+`docs/training-urdu/manual.html` (print to A4).
+
+## Owner / Sales Guide (Roman Urdu)
+
+`docs/roman-urdu-guide/CRM-Mukammal-Roman-Urdu-Guide.pdf` — a 31-page Roman Urdu guide
+covering **every module** (login, dashboard, tables, sessions, bookings, payments,
+customers, expenses, tournaments, all five reports, reminders, audit log, CCTV, portal,
+settings/backup), a **35-question FAQ** answering every question an owner or staff member
+may ask, the **10-question pain-discovery sales sequence**, and the business case
+(leakage, retention, owner control, ROI example). Source HTML + 21 fresh screenshots are in
+`docs/roman-urdu-guide/`; regenerate with the CDP `printToPDF` helper.
+
+Default seeded tables: 6 snooker tables (4 Standard @ Rs 300/hr + 2 VIP @ Rs 400/hr).
+Portal login: **Ali Raza / PIN `1234`**.
+
+## Project Structure
+
+```
+app/
+  Controllers/    HTTP request handlers (incl. PortalController for the public self-service portal)
+  Core/           Router, Database (PDO), Auth, Request, Response, View, Session
+  Models/         Database models (User, Table, Customer, ClubSession, Booking, Payment, Expense)
+  Services/       Business logic (RateService for peak/night bands, AuditService, BackupService, SettingsService)
+  Middleware/     CSRF & auth helpers
+config/           app.php, database.php, routes.php
+database/         migrations/, seeders/, install.php, backup.php
+public/           web root — index.php, assets
+resources/views/  layouts, partials, pages
+storage/          logs, backups
+```
+
+## Backup & Maintenance
+
+```bash
+# Scheduled daily backup (cron-friendly)
+php database/backup.php        # writes storage/backups/backup-YYYYMMDD-HHiiss.sql
+
+# In-app
+# Settings → "Create Backup Now" downloads the latest dump.
+# Backups are excluded from git.
+```
+
+## Demo Data
+
+`php database/seed_demo.php` wipes and reseeds a tidy, coherent demo dataset —
+7 tables, 2 active sessions, bookings that include a **pending portal request to approve**,
+expenses and history — and is safe to re-run any time.
+Portal login: **Ali Raza / PIN `1234`**. Reserve a table as a member, then approve it
+from the Counter role to watch the dashboard alert clear.
+
+## Export / Import
+
+- **Export CSV** appears on the Sessions, Bookings, Payments and Expenses pages and
+  downloads exactly the currently-filtered data (sessions honour from/to/table/payment
+  filters, expenses honour the month range, bookings default to the viewed day and accept
+  `from`/`to` for a range). Files are UTF-8 (BOM) so they open correctly in Excel/Google
+  Sheets, and are permission-gated by the same module permissions as viewing.
+- **Import** customers from CSV from the Customers page (Name, Phone, WhatsApp, Email,
+  Category, Notes columns).
+- **Full backups**: `database/backup.php` or Settings → Backup (SQL dump download + restore).
+
+## Peak / Night Pricing
+
+Configured under **Settings → Pricing & Peak Hours**:
+
+- `peak_enabled` — toggle the surge band. `peak_start`/`peak_end` support overnight windows (e.g. `19:00` → `00:00`).
+- `peak_rate_multiplier` — surge factor applied on top of the table's hourly rate during the band.
+- `night_start`/`night_end` — lower night band, applies only to tables that have a `night_rate` set.
+- Sessions started with `rate_type = hourly` inside a band auto-bill at the band rate; manual rates (frame/VIP/custom) are always respected.
+- The live rate band and resulting rate can be previewed right inside the settings page.
+
+## Customization — Roles & Themes
+
+**Roles & Permissions** — Settings → Roles & Permissions. Every non-superuser role
+(ECO, Counter, Staff, Auditor) has a full checkbox matrix over all 20 permissions
+(e.g. `tables.manage`, `reports.view`, `settings.manage`, `cctv.view`). Save is transactional and
+audited; **Owner & Admin always bypass the matrix (full access)** so you can't lock
+yourself out. The current user's own `settings.manage` is force-kept.
+
+**Themes** — Settings → Appearance:
+- **Accent colour**: pick a preset (Emerald, Baize, Violet, Sky, Rose, Gold) or a custom
+  colour. It is stored in `settings.accent_color` and drives the whole `emerald` palette
+  (buttons, badges, nav, focus rings, charts) via CSS variables — no page refresh needed.
+- **Theme mode**: per-user **Dark / Light / Auto** (Auto follows the OS), persisted on
+  the user's account via `POST /theme`. The header toggle switches and saves instantly.
+
+## Customer Portal
+
+Point members to `/portal` (no login needed): they enter the phone number they registered
+with **and the 4-digit portal PIN**. On success they land on their member dashboard showing
+their outstanding balance, recent sessions and payment history, plus a **Book a Table** form
+(pick a table, date and time window — club checks availability). Bookings created there appear
+in the CRM as **Requested** with a "Portal" badge, so the counter person can review and
+approve/decline them; the member sees the live status on their dashboard.
+
+Setting the PIN: from the customer's edit page (Portal Access), type a new 4-digit PIN — the
+CRM stores it hashed and provides a one-tap **WhatsApp link** that sends the member their PIN
+along with the `/portal` address. Only the phone number + correct PIN can sign in; failed
+attempts show an error and the member stays on the PIN screen.
+
+## WhatsApp / Click-to-Call
+
+Every customer phone auto-normalizes to Pakistan format (`03XXXXXXXXX` → `+923XXXXXXXXX`).
+The CRM provides:
+- **Call** button → opens the device dialer via `tel:` link
+- **WhatsApp** button → opens `wa.me` chat with a pre-filled greeting from club settings
+
+No external SMS/voice API or monthly cost required.
+
+## CCTV / Live Camera Wall
+
+The `/cctv` page shows your camera feeds as a no-plugin browser grid. It does **not**
+process video itself — a tiny local media server restreams your IP cameras; the CRM
+just displays them.
+
+Two **grid stream modes** (Settings → CCTV → Grid stream mode):
+
+- **Snapshot image** (default) — each tile is a lightweight image from the media server,
+  works anywhere.
+- **Live video** — real video in the grid: **HLS** via [hls.js](https://hls.js.org) or
+  native HLS in Safari, plus a **Fullscreen** button that opens [go2rtc](https://github.com/AlexxIT/go2rtc)'s
+  own player page (**WebRTC** sub-second latency, HLS fallback).
+
+Setup:
+
+1. Generate the go2rtc config straight from the CRM cameras:
+
+   ```bash
+   php database/go2rtc_config.php        # writes go2rtc.yaml from enabled cameras with RTSP URLs
+   go2rtc -config go2rtc.yaml
+   ```
+
+   (Works on any Linux/Windows/Mac box; the generated file contains camera credentials
+   and is `chmod 600`, so keep it out of git.)
+
+2. Or hand-write it for cameras that aren't in the CRM yet:
+
+   ```yaml
+   streams:
+     table01: rtsp://admin:pass@192.168.1.20:554/stream1
+     tables_all: rtsp://admin:pass@192.168.1.21:554/stream1
+   ```
+
+3. In the CRM: **Add Camera** with the same **Stream name** (`table01`, …), optionally the
+   RTSP source, a friendly name + location, and an **Assigned Table** (optional — the table's
+   number/name shows on the tile and a camera shortcut appears on that table in the dashboard
+   command center). Enabled cameras appear as live tiles; missing/offline streams show a
+   "No signal" placeholder.
+4. If go2rtc runs on another machine, set its address in **Settings → CCTV**
+   (default `http://127.0.0.1:1984`). In production expose go2rtc over **HTTPS/WSS**
+   (or same-origin) so fullscreen WebRTC works from a TLS page; the CRM's Content-Security
+   Policy automatically allows the configured media-server origin for the fullscreen frame.
+
+Roles with `cctv.view` see the wall; `cctv.manage` (Owner/Admin) can add/remove cameras.
+
+## Deployment
+
+Recommended: Shared hosting (Hostinger/Bluehost etc.) with PHP 8.2 & MySQL.
+Upload everything except `.env`, run `php database/install.php` via SSH or the installer,
+point the domain at `public/`.
+
+> Full step-by-step guide (release build, Apache/Nginx, TLS, cron, checklist,
+> troubleshooting): see **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)**.
+
+## Multi-Club Readiness
+
+Single-club today; brand/identity is fully settings-driven (no hardcoded club
+names/addresses in views or message templates). Ready-to-scale plan, schema
+design and rollout phases: see **[docs/MULTI_CLUB.md](docs/MULTI_CLUB.md)**.
+
+## Security & Hardening
+
+- **Session cookies** are `HttpOnly`, `SameSite=Lax` and flagged `Secure` over HTTPS
+  (`asifclub_session`), with strict-mode session management and ID rotation on login.
+- **Login throttling** — 5 failed attempts lock that browser session for 15 minutes.
+- **CSRF** — every state-changing form is protected by a per-session token; API routes
+  require authentication.
+- **Security headers** on every response: CSP, `X-Frame-Options: DENY`,
+  `X-Content-Type-Options: nosniff`, `Referrer-Policy`, `Permissions-Policy`, plus
+  `Strict-Transport-Security` when served over HTTPS (incl. behind ngrok).
+- **Production error handling** — with `APP_DEBUG=false`: friendly 500 page (JSON for
+  AJAX/API), PHP errors hidden, and full diagnostics written to
+  `storage/logs/app-YYYY-MM-DD.log` (git-ignored).
+- **Uploads** — backup restores accept only `.sql` under 20 MB; customer CSV imports are
+  parsed in-memory (no files stored).
+- The installer (`/install`) is only reachable before first setup; `.env` sits outside
+  `public/`, and a `public/.htaccess` blocks dotfiles + directory listing for Apache.
+- **Tunnel-friendly** — URLs/redirects derive from `X-Forwarded-Host`/`X-Forwarded-Proto`,
+  so the app behaves correctly behind ngrok (`ngrok http 8080` with `php -S 0.0.0.0:8080 -t public public/index.php`).
+
+## Roadmap
+
+- [x] Phase 1: Auth, Tables, Customers, Sessions, Bookings, Payments, Dashboard
+- [x] Phase 2 (core): Expenses, Finance, Staff-ready RBAC, Reports (basic)
+- [x] Phase 3: Customer portal, notifications bell, theme manager (accent + per-user theme), role-permission manager
+- [x] Phase 4: CCTV camera wall (live mode via go2rtc HLS + WebRTC fullscreen), advanced analytics, custom fields
+- [x] Phase 5: Installer wizard, backup/restore, multi-club readiness (blueprint)
+
+## License
+
+Proprietary — for Asif Snooker Club.

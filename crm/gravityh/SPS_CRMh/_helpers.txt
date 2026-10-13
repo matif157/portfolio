@@ -1,0 +1,6 @@
+﻿function format_date($date_str) {
+function format_datetime($dt_str) {
+function get_setting($key, $default = '') {
+function render_header($page_title = 'Dashboard', $active_module = 'dashboard') {
+function render_footer() {
+

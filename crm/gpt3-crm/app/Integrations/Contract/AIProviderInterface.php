@@ -1,0 +1,1 @@
+<?php namespace App\Integrations\Contract; interface AIProviderInterface{public function complete(string $prompt,array $context=[]):array;}

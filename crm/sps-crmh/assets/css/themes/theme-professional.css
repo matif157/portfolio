@@ -1,0 +1,129 @@
+/**
+ * ══════════════════════════════════════════════════════════════════════════
+ *  Theme 1 — Professional Core
+ *  Classic blue/slate enterprise palette. TaxDome × Salesforce inspired.
+ *  Supports: light (default) | dark | auto (prefers-color-scheme)
+ * ══════════════════════════════════════════════════════════════════════════
+ */
+
+/* ── Light (default, overrides base tokens from gravity-ui.css) ─────────── */
+[data-theme="professional"],
+[data-theme="professional"][data-mode="light"] {
+    --color-primary:        #2563eb;
+    --color-primary-hover:  #1d4ed8;
+    --color-primary-subtle: #dbeafe;
+    --color-accent:         #3b82f6;
+    --color-success:        #10b981;
+    --color-success-subtle: #d1fae5;
+    --color-warning:        #f59e0b;
+    --color-warning-subtle: #fef3c7;
+    --color-danger:         #ef4444;
+    --color-danger-subtle:  #fee2e2;
+    --color-info:           #0ea5e9;
+    --color-info-subtle:    #e0f2fe;
+    --color-bg:             #f1f5f9;
+    --color-surface:        #ffffff;
+    --color-surface-raised: #ffffff;
+    --color-surface-sunken: #f8fafc;
+    --color-overlay:        rgba(15, 23, 42, 0.55);
+    --sidebar-bg:           #0f172a;
+    --sidebar-text:         #94a3b8;
+    --sidebar-text-hover:   #ffffff;
+    --sidebar-active-bg:    rgba(59, 130, 246, 0.15);
+    --sidebar-active-text:  #60a5fa;
+    --sidebar-border:       rgba(255,255,255,0.06);
+    --sidebar-section-text: #475569;
+    --sidebar-icon-color:   #64748b;
+    --topbar-bg:            #0f172a;
+    --topbar-border:        rgba(255,255,255,0.08);
+    --topbar-text:          #e2e8f0;
+    --topbar-input-bg:      #1e293b;
+    --topbar-input-border:  #334155;
+    --text-primary:         #0f172a;
+    --text-secondary:       #334155;
+    --text-muted:           #64748b;
+    --text-placeholder:     #94a3b8;
+    --text-inverse:         #ffffff;
+    --border-color:         #e2e8f0;
+    --border-focus:         #3b82f6;
+}
+
+/* ── Dark Mode ──────────────────────────────────────────────────────────── */
+[data-theme="professional"][data-mode="dark"] {
+    --color-primary:        #3b82f6;
+    --color-primary-hover:  #60a5fa;
+    --color-primary-subtle: rgba(59, 130, 246, 0.15);
+    --color-accent:         #60a5fa;
+    --color-success:        #34d399;
+    --color-success-subtle: rgba(52, 211, 153, 0.15);
+    --color-warning:        #fbbf24;
+    --color-warning-subtle: rgba(251, 191, 36, 0.15);
+    --color-danger:         #f87171;
+    --color-danger-subtle:  rgba(248, 113, 113, 0.15);
+    --color-info:           #38bdf8;
+    --color-info-subtle:    rgba(56, 189, 248, 0.15);
+    --color-bg:             #0d1117;
+    --color-surface:        #161b22;
+    --color-surface-raised: #1f2937;
+    --color-surface-sunken: #0d1117;
+    --color-overlay:        rgba(0, 0, 0, 0.7);
+    --sidebar-bg:           #0d1117;
+    --sidebar-text:         #8b949e;
+    --sidebar-text-hover:   #e6edf3;
+    --sidebar-active-bg:    rgba(59, 130, 246, 0.18);
+    --sidebar-active-text:  #58a6ff;
+    --sidebar-border:       rgba(255,255,255,0.05);
+    --sidebar-section-text: #30363d;
+    --sidebar-icon-color:   #6e7681;
+    --topbar-bg:            #0d1117;
+    --topbar-border:        rgba(255,255,255,0.06);
+    --topbar-input-bg:      #161b22;
+    --topbar-input-border:  #30363d;
+    --text-primary:         #e6edf3;
+    --text-secondary:       #8b949e;
+    --text-muted:           #6e7681;
+    --text-placeholder:     #484f58;
+    --text-inverse:         #0d1117;
+    --border-color:         #21262d;
+    --border-focus:         #3b82f6;
+    --shadow-xs:            0 1px 2px rgba(0,0,0,0.4);
+    --shadow-sm:            0 2px 4px rgba(0,0,0,0.5);
+    --shadow-md:            0 4px 8px rgba(0,0,0,0.6);
+    --shadow-lg:            0 10px 20px rgba(0,0,0,0.7);
+    --shadow-xl:            0 20px 40px rgba(0,0,0,0.8);
+}
+
+/* ── Auto (system preference) ───────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+    [data-theme="professional"][data-mode="auto"] {
+        --color-primary:        #3b82f6;
+        --color-primary-hover:  #60a5fa;
+        --color-primary-subtle: rgba(59, 130, 246, 0.15);
+        --color-accent:         #60a5fa;
+        --color-bg:             #0d1117;
+        --color-surface:        #161b22;
+        --color-surface-raised: #1f2937;
+        --color-surface-sunken: #0d1117;
+        --sidebar-bg:           #0d1117;
+        --sidebar-text:         #8b949e;
+        --sidebar-text-hover:   #e6edf3;
+        --sidebar-active-bg:    rgba(59, 130, 246, 0.18);
+        --sidebar-active-text:  #58a6ff;
+        --sidebar-border:       rgba(255,255,255,0.05);
+        --sidebar-section-text: #30363d;
+        --sidebar-icon-color:   #6e7681;
+        --topbar-bg:            #0d1117;
+        --topbar-border:        rgba(255,255,255,0.06);
+        --topbar-input-bg:      #161b22;
+        --topbar-input-border:  #30363d;
+        --text-primary:         #e6edf3;
+        --text-secondary:       #8b949e;
+        --text-muted:           #6e7681;
+        --text-placeholder:     #484f58;
+        --border-color:         #21262d;
+        --color-success-subtle: rgba(52, 211, 153, 0.15);
+        --color-warning-subtle: rgba(251, 191, 36, 0.15);
+        --color-danger-subtle:  rgba(248, 113, 113, 0.15);
+        --color-info-subtle:    rgba(56, 189, 248, 0.15);
+    }
+}

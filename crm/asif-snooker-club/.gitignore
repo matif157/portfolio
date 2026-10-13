@@ -1,0 +1,15 @@
+/vendor/
+.env
+.env.local
+/storage/logs/*.log
+/storage/backups/*
+!/storage/logs/.gitkeep
+!/storage/backups/.gitkeep
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+node_modules/
+# go2rtc camera config (contains credentials)
+go2rtc.yaml

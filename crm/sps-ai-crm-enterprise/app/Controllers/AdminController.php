@@ -1,0 +1,4 @@
+<?php
+namespace App\Controllers;
+use App\Support\{Auth,View,Database,TenantContext};
+final class AdminController { public function users():void{Auth::requireLogin();$s=Database::pdo()->prepare('SELECT u.*,r.name role_name FROM users u LEFT JOIN roles r ON r.id=u.role_id WHERE u.tenant_id=? ORDER BY u.id DESC');$s->execute([TenantContext::id()]);View::render('admin/users',['rows'=>$s->fetchAll()]);} public function integrations():void{Auth::requireLogin();$s=Database::pdo()->prepare('SELECT * FROM external_integrations WHERE tenant_id=? ORDER BY name');$s->execute([TenantContext::id()]);View::render('admin/integrations',['rows'=>$s->fetchAll()]);} public function permissions():void{Auth::requireLogin();$s=Database::pdo()->query('SELECT * FROM permissions ORDER BY stage,code');View::render('admin/permissions',['rows'=>$s->fetchAll()]);}}

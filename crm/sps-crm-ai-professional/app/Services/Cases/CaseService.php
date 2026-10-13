@@ -1,0 +1,4 @@
+<?php
+namespace App\Services\Cases;
+use App\Support\Database;use App\Support\TenantContext;use App\Support\Auth;
+final class CaseService { public function create(int $clientId,string $title,string $type='general',?int $clientServiceId=null):int{$number='CASE-'.date('Ymd').'-'.strtoupper(bin2hex(random_bytes(3)));$s=Database::pdo()->prepare('INSERT INTO cases(tenant_id,client_id,client_service_id,case_number,title,type,assigned_user_id,opened_at,created_at,updated_at) VALUES(?,?,?,?,?,?,?,NOW(),NOW(),NOW())');$s->execute([TenantContext::id(),$clientId,$clientServiceId,$number,$title,$type,Auth::id()]);return (int)Database::pdo()->lastInsertId();} public function close(int $id,string $reason=''):void{$s=Database::pdo()->prepare("UPDATE cases SET status='closed',description=CONCAT(COALESCE(description,''),'\\n',?),closed_at=NOW(),updated_at=NOW() WHERE tenant_id=? AND id=?");$s->execute([$reason,TenantContext::id(),$id]);}}

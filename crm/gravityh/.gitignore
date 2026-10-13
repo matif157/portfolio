@@ -1,0 +1,12 @@
+vendor/
+node_modules/
+*.log
+cache/
+temp/
+session/
+.env
+storage/config/local.php
+backups/
+uploads/avatars/
+uploads/templates/
+logs/

@@ -1,0 +1,1 @@
+<?php namespace App\Integrations\Contract; interface MessagingInterface{public function send(string $to,string $message,array $meta=[]):array;}

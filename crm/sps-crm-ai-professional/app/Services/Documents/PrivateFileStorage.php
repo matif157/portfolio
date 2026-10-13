@@ -1,0 +1,4 @@
+<?php
+namespace App\Services\Documents;
+use App\Contracts\Documents\DocumentStorageInterface;
+final class PrivateFileStorage implements DocumentStorageInterface { private string $root; public function __construct(?string $root=null){$this->root=$root?:__DIR__.'/../../../storage/private';if(!is_dir($this->root))mkdir($this->root,0700,true);} private function path(string $key):string{$safe=ltrim(str_replace('..','',$key),'/');return $this->root.'/'.$safe;} public function put(string $key,string $contents):string{$p=$this->path($key);if(!is_dir(dirname($p)))mkdir(dirname($p),0700,true);file_put_contents($p,$contents,LOCK_EX);return $key;} public function get(string $key):string{$p=$this->path($key);if(!is_file($p))throw new \RuntimeException('Document not found');return file_get_contents($p);} public function delete(string $key):void{@unlink($this->path($key));} }

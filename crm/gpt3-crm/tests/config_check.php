@@ -1,0 +1,2 @@
+<?php
+$root=dirname(__DIR__);$required=['bootstrap.php','.env.example','database/crm.sql','public/index.php','public/assets/css/app.css','public/assets/js/app.js','routes/web.php','config/routes_map.php','README.md'];$bad=[];foreach($required as $f)if(!is_file($root.'/'.$f))$bad[]=$f;echo 'Required files: '.(count($required)-count($bad)).'/'.count($required).PHP_EOL;if($bad){echo "Missing:\n".implode("\n",$bad).PHP_EOL;exit(1);}echo "Configuration file checks passed.\n";

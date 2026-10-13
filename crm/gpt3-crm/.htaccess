@@ -1,0 +1,8 @@
+RewriteEngine On
+RewriteBase /
+RewriteRule ^assets/(.*)$ public/assets/$1 [L]
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+RewriteRule ^$ index.php?route=%2F [QSA,L]
+RewriteRule ^(.+)$ index.php?route=%2F$1 [QSA,L]

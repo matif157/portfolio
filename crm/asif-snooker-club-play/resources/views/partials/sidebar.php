@@ -1,0 +1,160 @@
+<?php if (!is_authenticated()) return; ?>
+<?php
+$uri = $_SERVER['REQUEST_URI'] ?? '/';
+$isActive = fn(string $path) => str_starts_with($uri, $path) || $uri === $path ? 'true' : 'false';
+?>
+<!-- Sidebar (always left) -->
+<aside class="fixed inset-y-0 left-0 z-50 w-[240px] bg-ink-850/95 border-r border-white/[0.06] flex flex-col
+              transform transition-transform duration-300 lg:translate-x-0"
+     x-bind:class="mobileNav ? 'translate-x-0' : '-translate-x-full'">
+
+    <!-- Brand -->
+    <div class="px-5 pt-5 pb-4 border-b border-white/[0.06]">
+        <a href="/" class="flex items-center gap-3 group">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-md shadow-emerald-500/20 flex items-center justify-center flex-shrink-0 ring-1 ring-white/10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                    <circle cx="12" cy="12" r="9"/>
+                    <circle cx="12" cy="12" r="3"/>
+                </svg>
+            </div>
+            <div>
+                <div class="text-sm font-bold text-white tracking-tight">ASIF SNOOKER</div>
+                <div class="text-[11px] text-slate-500 font-medium tracking-wide">CLUB MANAGEMENT</div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Nav -->
+    <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-0.5">
+
+        <p class="px-3 mb-2 text-[10px] font-semibold uppercase tracking-widest text-slate-500/70">Main</p>
+
+        <a href="/" class="nav-item <?php if ($uri === '/') echo 'active'; ?>">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 13.5V5a2 2 0 012-2h6.5l1 1H20a2 2 0 012 2v9.5a2 2 0 01-2 2h-2a2 2 0 00-2 2H8a2 2 0 00-2-2H4a2 2 0 01-2-2z"/></svg>
+            Dashboard
+        </a>
+
+        <a href="/tables" class="nav-item <?php if (str_starts_with($uri, '/tables')) echo 'active'; ?>">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+            Tables
+        </a>
+
+        <a href="/sessions" class="nav-item <?php if (str_starts_with($uri, '/sessions')) echo 'active'; ?>">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Sessions
+        </a>
+
+        <a href="/bookings" class="nav-item <?php if (str_starts_with($uri, '/bookings')) echo 'active'; ?>">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            Bookings
+        </a>
+
+        <p class="px-3 mt-5 mb-2 text-[10px] font-semibold uppercase tracking-widest text-slate-500/70">People & Money</p>
+
+        <a href="/customers" class="nav-item <?php if (str_starts_with($uri, '/customers')) echo 'active'; ?>">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M9 20H4v-2a3 3 0 015.356-1.857M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            Customers
+        </a>
+
+        <a href="/customers/broadcast" class="nav-item <?php if (str_starts_with($uri, '/customers/broadcast')) echo 'active'; ?>">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-10.68 6.01L4 18l1.08-4.07A7 7 0 1119 11zM13 11h2m-6 0h1"/></svg>
+            Broadcast
+        </a>
+
+        <a href="/payments" class="nav-item <?php if (str_starts_with($uri, '/payments')) echo 'active'; ?>">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg>
+            Payments
+        </a>
+
+        <a href="/loans" class="nav-item <?php if (str_starts_with($uri, '/loans')) echo 'active'; ?>">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v8m0 0l3-3m-3 3l-3-3M4 6h16M4 18h16"/><circle cx="12" cy="12" r="9"/></svg>
+            Udhaar / Loans
+        </a>
+
+        <a href="/expenses" class="nav-item <?php if (str_starts_with($uri, '/expenses')) echo 'active'; ?>">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/></svg>
+            Expenses
+        </a>
+
+        <?php if (user_can('tournaments.view') || user_can('tournaments.manage')): ?>
+        <a href="/tournaments" class="nav-item <?php if (str_starts_with($uri, '/tournaments')) echo 'active'; ?>">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9H4.5a2.5 2.5 0 010-5H6M18 9h1.5a2.5 2.5 0 000-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22m6-7.34V17c0 .55.47.98.97 1.21 1.18.54 1.53 2.03 1.53 3.79"/></svg>
+            Tournaments
+        </a>
+        <?php endif; ?>
+
+        <?php if (user_can('reports.view') || user_can('finance.view')): ?>
+        <a href="/reports/daily" class="nav-item <?php if (str_starts_with($uri, '/reports/daily')) echo 'active'; ?>">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            Daily Closing
+        </a>
+        <a href="/reports/pnl" class="nav-item <?php if (str_starts_with($uri, '/reports/pnl')) echo 'active'; ?>">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Profit &amp; Loss
+        </a>
+        <a href="/reports/analytics" class="nav-item <?php if (str_starts_with($uri, '/reports/analytics')) echo 'active'; ?>">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2zm3-8h2a1 1 0 110 2h-2a1 1 0 110-2z"/></svg>
+            Analytics
+        </a>
+        <a href="/reports/followup" class="nav-item <?php if (str_starts_with($uri, '/reports/followup')) echo 'active'; ?>">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            Follow-up
+        </a>
+        <a href="/reminders" class="nav-item <?php if (str_starts_with($uri, '/reminders')) echo 'active'; ?>">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            Reminders
+        </a>
+        <a href="/reports/audit" class="nav-item <?php if (str_starts_with($uri, '/reports/audit')) echo 'active'; ?>">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+            Audit Log
+        </a>
+        <?php endif; ?>
+
+        <?php if (user_can('cctv.view') || user_can('cctv.manage')): ?>
+        <p class="px-3 mt-5 mb-2 text-[10px] font-semibold uppercase tracking-widest text-slate-500/70">Monitoring</p>
+        <a href="/cctv" class="nav-item <?php if (str_starts_with($uri, '/cctv')) echo 'active'; ?>">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            CCTV
+        </a>
+        <?php endif; ?>
+
+        <?php if (user_can('settings.manage')): ?>
+        <p class="px-3 mt-5 mb-2 text-[10px] font-semibold uppercase tracking-widest text-slate-500/70">System</p>
+        <a href="/settings" class="nav-item <?php if (str_starts_with($uri, '/settings')) echo 'active'; ?>">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            Settings
+        </a>
+        <?php endif; ?>
+
+        <p class="px-3 mt-5 mb-2 text-[10px] font-semibold uppercase tracking-widest text-slate-500/70">Public</p>
+        <a href="/portal" class="nav-item <?php if (str_starts_with($uri, '/portal')) echo 'active'; ?>" target="_blank" rel="noopener">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3l9 9-9 9M15 12H3"/></svg>
+            Member Portal
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-auto opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+
+    </nav>
+
+    <!-- User -->
+    <div class="border-t border-white/[0.06] p-3">
+        <div class="flex items-center gap-3 px-2 py-2">
+            <div class="w-8 h-8 rounded-lg bg-emerald-600/30 flex items-center justify-center flex-shrink-0">
+                <span class="text-emerald-400 text-xs font-bold">
+                    <?= strtoupper(substr($user?->name ?? 'U', 0, 1)) ?>
+                </span>
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-slate-200 truncate"><?= e($user?->name ?? 'User') ?></p>
+                <p class="text-[11px] text-slate-500 uppercase tracking-wider"><?= e($user?->role ?? 'staff') ?></p>
+            </div>
+            <form method="POST" action="<?= e(url('/logout')) ?>" class="flex-shrink-0">
+                <?= csrf_field() ?>
+                <button type="submit" title="Sign out"
+                        class="p-2 rounded-lg text-slate-500 hover:text-white hover:bg-white/5 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                </button>
+            </form>
+        </div>
+    </div>
+
+</aside>

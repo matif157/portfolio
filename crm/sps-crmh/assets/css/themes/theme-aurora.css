@@ -1,0 +1,115 @@
+/**
+ * ══════════════════════════════════════════════════════════════════════════
+ *  Theme 2 — Aurora Modern
+ *  Violet × Cyan gradient-forward palette. Linear × Notion inspired.
+ *  Supports: light | dark | auto
+ * ══════════════════════════════════════════════════════════════════════════
+ */
+
+[data-theme="aurora"],
+[data-theme="aurora"][data-mode="light"] {
+    --color-primary:        #7c3aed;
+    --color-primary-hover:  #6d28d9;
+    --color-primary-subtle: #ede9fe;
+    --color-accent:         #06b6d4;
+    --color-success:        #10b981;
+    --color-success-subtle: #d1fae5;
+    --color-warning:        #f59e0b;
+    --color-warning-subtle: #fef3c7;
+    --color-danger:         #f43f5e;
+    --color-danger-subtle:  #ffe4e6;
+    --color-info:           #06b6d4;
+    --color-info-subtle:    #cffafe;
+    --color-bg:             #faf7ff;
+    --color-surface:        #ffffff;
+    --color-surface-raised: #ffffff;
+    --color-surface-sunken: #f5f3ff;
+    --color-overlay:        rgba(30, 10, 60, 0.5);
+    --sidebar-bg:           #1e1b4b;
+    --sidebar-text:         #a5b4fc;
+    --sidebar-text-hover:   #ffffff;
+    --sidebar-active-bg:    rgba(124, 58, 237, 0.2);
+    --sidebar-active-text:  #c4b5fd;
+    --sidebar-border:       rgba(255,255,255,0.07);
+    --sidebar-section-text: #4338ca;
+    --sidebar-icon-color:   #6366f1;
+    --topbar-bg:            #1e1b4b;
+    --topbar-border:        rgba(255,255,255,0.08);
+    --topbar-input-bg:      #2d2a5e;
+    --topbar-input-border:  #4338ca;
+    --text-primary:         #1e1b4b;
+    --text-secondary:       #4338ca;
+    --text-muted:           #7c3aed;
+    --text-placeholder:     #a5b4fc;
+    --text-inverse:         #ffffff;
+    --border-color:         #ddd6fe;
+    --border-focus:         #7c3aed;
+}
+
+[data-theme="aurora"][data-mode="dark"] {
+    --color-primary:        #a78bfa;
+    --color-primary-hover:  #c4b5fd;
+    --color-primary-subtle: rgba(167, 139, 250, 0.15);
+    --color-accent:         #22d3ee;
+    --color-success:        #34d399;
+    --color-success-subtle: rgba(52, 211, 153, 0.15);
+    --color-warning:        #fbbf24;
+    --color-warning-subtle: rgba(251, 191, 36, 0.15);
+    --color-danger:         #fb7185;
+    --color-danger-subtle:  rgba(251, 113, 133, 0.15);
+    --color-info:           #22d3ee;
+    --color-info-subtle:    rgba(34, 211, 238, 0.15);
+    --color-bg:             #0f0c1d;
+    --color-surface:        #1a1730;
+    --color-surface-raised: #221e3b;
+    --color-surface-sunken: #0f0c1d;
+    --color-overlay:        rgba(0, 0, 0, 0.75);
+    --sidebar-bg:           #0d0b1e;
+    --sidebar-text:         #7c6fb0;
+    --sidebar-text-hover:   #e0d9ff;
+    --sidebar-active-bg:    rgba(167, 139, 250, 0.15);
+    --sidebar-active-text:  #c4b5fd;
+    --sidebar-border:       rgba(255,255,255,0.05);
+    --sidebar-section-text: #312e6b;
+    --sidebar-icon-color:   #5b5799;
+    --topbar-bg:            #0d0b1e;
+    --topbar-border:        rgba(255,255,255,0.07);
+    --topbar-input-bg:      #1a1730;
+    --topbar-input-border:  #312e6b;
+    --text-primary:         #e0d9ff;
+    --text-secondary:       #9b8ed8;
+    --text-muted:           #6b5fa8;
+    --text-placeholder:     #3c3770;
+    --text-inverse:         #0d0b1e;
+    --border-color:         #221e3b;
+    --border-focus:         #a78bfa;
+}
+
+@media (prefers-color-scheme: dark) {
+    [data-theme="aurora"][data-mode="auto"] {
+        --color-primary:        #a78bfa;
+        --color-primary-hover:  #c4b5fd;
+        --color-primary-subtle: rgba(167, 139, 250, 0.15);
+        --color-accent:         #22d3ee;
+        --color-bg:             #0f0c1d;
+        --color-surface:        #1a1730;
+        --color-surface-raised: #221e3b;
+        --color-surface-sunken: #0f0c1d;
+        --sidebar-bg:           #0d0b1e;
+        --sidebar-text:         #7c6fb0;
+        --sidebar-text-hover:   #e0d9ff;
+        --sidebar-active-bg:    rgba(167, 139, 250, 0.15);
+        --sidebar-active-text:  #c4b5fd;
+        --sidebar-border:       rgba(255,255,255,0.05);
+        --sidebar-section-text: #312e6b;
+        --sidebar-icon-color:   #5b5799;
+        --topbar-bg:            #0d0b1e;
+        --topbar-border:        rgba(255,255,255,0.07);
+        --topbar-input-bg:      #1a1730;
+        --topbar-input-border:  #312e6b;
+        --text-primary:         #e0d9ff;
+        --text-secondary:       #9b8ed8;
+        --text-muted:           #6b5fa8;
+        --border-color:         #221e3b;
+    }
+}

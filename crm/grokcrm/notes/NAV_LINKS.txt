@@ -1,0 +1,36 @@
+================================================
+ADD THESE LINKS TO includes/header.php SIDEBAR
+================================================
+
+Place them after the existing menu items (before Users/Roles section):
+
+        <a class="nav-link <?= ($pageTitle=='Customizer')?'active':'' ?>" href="<?= $base ?>/customizer/index.php">
+            <i class="bi bi-sliders"></i> Customizer
+        </a>
+        <a class="nav-link <?= ($pageTitle=='Services')?'active':'' ?>" href="<?= $base ?>/services/index.php">
+            <i class="bi bi-box-seam"></i> Services
+        </a>
+        <a class="nav-link <?= ($pageTitle=='Client Types')?'active':'' ?>" href="<?= $base ?>/client_types/index.php">
+            <i class="bi bi-tags"></i> Client Types
+        </a>
+        <a class="nav-link <?= ($pageTitle=='Error Logs')?'active':'' ?>" href="<?= $base ?>/error_logs/index.php">
+            <i class="bi bi-bug"></i> Error Logs
+        </a>
+
+================================================
+OPTIONAL: Load error handler in includes/log_in.php
+================================================
+
+Add this line near the bottom of log_in.php (after functions.php):
+
+require_once __DIR__ . '/error_handler.php';
+
+================================================
+ALSO: Update base path detection in header.php
+================================================
+
+In the preg_match for subfolders, add:
+customizer|services|client_types|error_logs
+
+Example:
+if (preg_match('#/(clients|invoices|payments|notes|banking|cards|reports|reminders|warnings|imports|customizer|services|client_types|error_logs)/?$#', $scriptDir)) {

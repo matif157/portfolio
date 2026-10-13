@@ -1,0 +1,4 @@
+<?php
+namespace App\Services;
+use App\Support\Database;use App\Support\TenantContext;use App\Support\Auth;
+final class TaskEngine { public function create(string $title,?int $clientId=null,?int $projectId=null,?int $assignedUserId=null,?string $dueAt=null,string $priority='normal'):int{$s=Database::pdo()->prepare('INSERT INTO tasks(tenant_id,client_id,project_id,assigned_user_id,title,status,priority,due_at,created_at,updated_at) VALUES(?,?,?,?,?,\'open\',?,?,NOW(),NOW())');$s->execute([TenantContext::id(),$clientId,$projectId,$assignedUserId?:Auth::id(),$title,$priority,$dueAt]);$id=(int)Database::pdo()->lastInsertId();(new ActivityService)->log('tasks','created','task',$id);return $id;} public function complete(int $id):void{$s=Database::pdo()->prepare("UPDATE tasks SET status='completed',updated_at=NOW() WHERE tenant_id=? AND id=?");$s->execute([TenantContext::id(),$id]);}}

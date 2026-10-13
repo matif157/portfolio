@@ -1,0 +1,50 @@
+================================================
+SPS CRM — Phase 2 Update (Leads + Projects)
+================================================
+
+Install on top of Phase 1.
+
+1. SQL
+   phpMyAdmin → sps_crm → Import:
+   database/phase2.sql
+
+2. Copy files into your Phase 1 root:
+
+   app/Controllers/LeadController.php
+   app/Controllers/ProjectController.php
+   resources/views/leads/          (entire folder)
+   resources/views/projects/       (entire folder)
+
+3. Routes — open routes/web.php and ADD at the end:
+
+   require ROOT_PATH . '/routes/phase2_routes.php';
+
+   Then copy routes/phase2_routes.php into your routes/ folder.
+
+   OR paste the route lines from phase2_routes.php into web.php.
+
+4. Sidebar — edit resources/views/layouts/main.php
+   Add after Services (or Clients):
+
+        <a href="<?= url('/leads') ?>" class="nav-item"><i class="bi bi-funnel"></i> Leads</a>
+        <a href="<?= url('/projects') ?>" class="nav-item"><i class="bi bi-kanban"></i> Projects</a>
+
+5. Hard refresh browser (Ctrl+F5)
+
+------------------------------------------------
+What you get
+------------------------------------------------
+Leads:
+  - List / create / edit / show
+  - Status pipeline (new → contacted → qualified → … → converted)
+  - Convert lead → creates Client + links history
+
+Projects:
+  - List / create / edit / show
+  - Attach services, assign staff, manager
+  - Link to client; optional invoice link
+  - Status: open, in progress, waiting, completed, etc.
+
+Workflow:
+  Lead → Convert to Client → New Project for that client
+================================================

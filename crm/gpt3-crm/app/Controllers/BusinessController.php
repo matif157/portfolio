@@ -1,0 +1,10 @@
+<?php
+namespace App\Controllers;
+use App\Core\{Auth,View,Request,Csrf,Response,Database};
+use App\Services\ActivityService;
+final class BusinessController {
+ public function index():void{Auth::requireLogin();$q=trim((new Request)->input('q',''));$sql='SELECT b.*,c.full_name client_name FROM businesses b JOIN clients c ON c.id=b.client_id WHERE c.deleted_at IS NULL';$params=[];if($q!==''){$sql.=' AND (b.business_name LIKE ? OR c.full_name LIKE ? OR b.dba LIKE ?)';$params=["%$q%","%$q%","%$q%"];} $sql.=' ORDER BY b.id DESC LIMIT 500';$s=Database::pdo()->prepare($sql);$s->execute($params);View::render('businesses/index',['businesses'=>$s->fetchAll(),'q'=>$q]);}
+ public function create():void{Auth::requireLogin();$clients=Database::pdo()->query('SELECT id,full_name FROM clients WHERE deleted_at IS NULL ORDER BY full_name')->fetchAll();View::render('businesses/form',['clients'=>$clients]);}
+ public function store():never{Auth::requireLogin();$r=new Request;if(!Csrf::check($r->input('_csrf'))){http_response_code(419);exit('CSRF');}$s=Database::pdo()->prepare('INSERT INTO businesses(tenant_id,client_id,business_name,dba,ein_cipher,entity_type,business_activity,street,city,state,zip,status,created_at,updated_at) VALUES(1,?,?,?,?,?,?,?,?,?,\'active\',NOW(),NOW())');$s->execute([(int)$r->input('client_id'),$r->input('business_name'),$r->input('dba'),$r->input('ein'),$r->input('entity_type'),$r->input('business_activity'),$r->input('street'),$r->input('city'),$r->input('state'),$r->input('zip')]);$id=(int)Database::pdo()->lastInsertId();(new ActivityService)->record('BUSINESS_CREATED','Businesses','business',$id);Response::redirect(route('businesses'));}
+ public function show($id):void{Auth::requireLogin();$s=Database::pdo()->prepare('SELECT b.*,c.full_name client_name FROM businesses b JOIN clients c ON c.id=b.client_id WHERE b.id=?');$s->execute([(int)$id]);$b=$s->fetch();if(!$b){http_response_code(404);exit('Business not found');}View::render('businesses/show',['business'=>$b]);}
+}

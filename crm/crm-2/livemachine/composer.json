@@ -1,0 +1,16 @@
+{
+    "name": "local/attendance-system",
+    "description": "Attendance management for ZKTeco-compatible TCP/4370 devices.",
+    "type": "project",
+    "require": {
+        "php": ">=8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "classes/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}

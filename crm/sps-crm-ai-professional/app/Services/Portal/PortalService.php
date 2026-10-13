@@ -1,0 +1,4 @@
+<?php
+namespace App\Services\Portal;
+use App\Support\Database;use App\Support\TenantContext;
+final class PortalService { public function createUser(int $clientId,string $username,string $password):int{$s=Database::pdo()->prepare('INSERT INTO portal_users(tenant_id,client_id,username,password_hash,created_at,updated_at) VALUES(?,?,?,?,NOW(),NOW())');$s->execute([TenantContext::id(),$clientId,$username,password_hash($password,PASSWORD_DEFAULT)]);return (int)Database::pdo()->lastInsertId();} public function clientSnapshot(int $clientId):array{$pdo=Database::pdo();$q=$pdo->prepare('SELECT * FROM clients WHERE tenant_id=? AND id=?');$q->execute([TenantContext::id(),$clientId]);$client=$q->fetch();$s=$pdo->prepare('SELECT cs.*,sv.name FROM client_services cs JOIN services sv ON sv.id=cs.service_id WHERE cs.tenant_id=? AND cs.client_id=? ORDER BY cs.id DESC');$s->execute([TenantContext::id(),$clientId]);return ['client'=>$client,'services'=>$s->fetchAll()];}}

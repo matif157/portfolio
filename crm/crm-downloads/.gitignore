@@ -1,0 +1,48 @@
+# Environment & Config
+.env
+.env.*
+config.local.php
+
+# Database dumps & SQL files
+*.sql
+database/
+databse file/
+
+# Client uploads & sensitive files
+Uploads/projects/
+Uploads/bank_statements/
+Uploads/*/credentials*
+Uploads/*/*Credentials*
+Uploads/*/*credentials*
+
+# Credential files
+*Credentials*.txt
+*credentials*.txt
+NVCCredentials.txt
+USCISCredentials*.txt
+USTravelDocCredentials.txt
+InterviewPortalCredentials.txt
+MoazenUSCISCredentials.txt
+
+# Sensitive images
+password.png
+
+# Backup files
+*.bak
+
+# Vendor
+vendor/
+
+# Node
+node_modules/
+
+# Logs
+*.log
+storage/logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Livemachine dumps
+livemachine/*.sql

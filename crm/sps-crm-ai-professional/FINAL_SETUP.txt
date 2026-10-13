@@ -1,0 +1,21 @@
+SPS CRM - FINAL LOCAL SETUP
+
+1. Do NOT copy the old entire XAMPP folder into the new XAMPP folder.
+2. Keep the new XAMPP installation clean.
+3. Back up old MySQL databases separately before removing the old XAMPP.
+4. Put this CRM under:
+   C:\xampp\htdocs\SPS_CRM_AI_Professional_Complete_FINAL
+5. Start Apache and MySQL from the NEW XAMPP Control Panel.
+6. Run check-environment.bat.
+7. Run start-local.bat.
+8. Open http://127.0.0.1:8000/login
+
+DATABASE:
+- MySQL must be running.
+- The CRM expects the sps_crm database according to its configuration.
+- If it does not exist, import database\schema.sql using phpMyAdmin.
+- Do NOT overwrite/replace MySQL's data directory by copying the entire old XAMPP folder.
+- If you have existing databases in the old XAMPP, back them up/export them first and import them into the new XAMPP MySQL.
+
+LOGGER:
+Logger.php has been fixed to use PHP's global \Throwable so PDOException can be logged correctly instead of causing App\Support\Throwable TypeError.

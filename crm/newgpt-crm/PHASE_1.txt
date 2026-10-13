@@ -1,0 +1,2 @@
+SPS CRM PHASE 1
+XAMPP-safe foundation. No external dependencies.

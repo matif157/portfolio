@@ -1,0 +1,1 @@
+<?php namespace App\Repositories; use App\Core\Database; final class RoleRepository{public function all(int $limit=100):array{$s=Database::pdo()->query('SELECT * FROM roles ORDER BY id LIMIT '.(int)$limit);return $s->fetchAll();}public function find(int $id):?array{$s=Database::pdo()->prepare('SELECT * FROM roles WHERE id=?');$s->execute([$id]);$r=$s->fetch();return $r?:null;}}

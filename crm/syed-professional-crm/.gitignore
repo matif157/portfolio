@@ -1,0 +1,12 @@
+vendor/
+node_modules/
+*.log
+cache/
+temp/
+session/
+.env
+storage/config/local.php
+storage/install.lock
+backups/
+uploads/
+logs/

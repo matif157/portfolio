@@ -1,0 +1,301 @@
+/* ASIF SNOOKER CLUB — Premium Dark Theme Styles */
+
+[x-cloak] { display: none; }
+
+/* ── Ambient background ────────────────────────────────────────── */
+body {
+    background:
+        radial-gradient(90rem 42rem at 15% -12%, color-mix(in srgb, var(--a-500, #10b981) 7%, transparent), transparent 60%),
+        radial-gradient(80rem 38rem at 105% -8%, rgba(99,102,241,0.055), transparent 55%),
+        radial-gradient(60rem 30rem at 50% 110%, color-mix(in srgb, var(--a-500, #10b981) 4%, transparent), transparent 60%),
+        #0b0e14;
+    background-attachment: fixed;
+}
+
+/* ── Smooth animations ─────────────────────────────────────────── */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeIn .28s ease-out both; }
+
+/* Staggered fade-in for sibling blocks (stat rows, grids) */
+.fade-in-stagger > * { animation: fadeIn .3s ease-out both; }
+.fade-in-stagger > *:nth-child(2)  { animation-delay: .04s; }
+.fade-in-stagger > *:nth-child(3)  { animation-delay: .08s; }
+.fade-in-stagger > *:nth-child(4)  { animation-delay: .12s; }
+.fade-in-stagger > *:nth-child(5)  { animation-delay: .16s; }
+.fade-in-stagger > *:nth-child(6)  { animation-delay: .20s; }
+.fade-in-stagger > *:nth-child(7)  { animation-delay: .24s; }
+.fade-in-stagger > *:nth-child(8)  { animation-delay: .28s; }
+.fade-in-stagger > *:nth-child(n+9){ animation-delay: .32s; }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    .fade-in, .fade-in-stagger > * { animation: none; }
+}
+
+/* ── Sidebar nav items ──────────────────────────────────────────── */
+.nav-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #94a3b8;
+    transition: all .15s;
+    text-decoration: none;
+}
+.nav-item:hover {
+    background: rgba(255,255,255,0.05);
+    color: #f1f5f9;
+}
+.nav-item.active {
+    background: rgba(16,185,129,0.12);
+    background: color-mix(in srgb, var(--a-500, #10b981) 12%, transparent);
+    color: var(--a-400, #34d399);
+    font-weight: 600;
+}
+.nav-item.active svg { stroke: var(--a-400, #34d399); }
+.nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: -3px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 58%;
+    border-radius: 999px;
+    background: linear-gradient(var(--a-400, #34d399), var(--a-600, #059669));
+    box-shadow: 0 0 12px color-mix(in srgb, var(--a-500, #10b981) 55%, transparent);
+}
+
+/* ── Stat cards ──────────────────────────────────────────────────── */
+.stat-card {
+    background: #131824;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 20px;
+    transition: all .2s;
+}
+.stat-card:hover {
+    border-color: rgba(255,255,255,0.1);
+    transform: translateY(-1px);
+}
+
+/* ── Table tiles ─────────────────────────────────────────────────── */
+.table-tile {
+    border-radius: 16px;
+    padding: 18px;
+    transition: all .2s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+}
+.table-tile::before {
+    content:'';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1px solid rgba(255,255,255,0.07);
+    pointer-events: none;
+}
+.table-tile:hover::before { border-color: rgba(255,255,255,0.14); }
+
+.table-tile--available  { background: #131824; }
+.table-tile--occupied   { background: rgba(16,185,129,0.08); background: color-mix(in srgb, var(--a-500, #10b981) 8%, transparent); }
+.table-tile--reserved   { background: rgba(99,102,241,0.08); }
+.table-tile--ending     { background: rgba(245,158,11,0.08); }
+.table-tile--maintenance{ background: rgba(239,68,68,0.06); }
+.table-tile--blocked    { background: rgba(100,116,139,0.08); }
+
+/* Status badges */
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+.status-available  .status-dot { background: var(--a-400, #34d399); box-shadow: 0 0 8px color-mix(in srgb, var(--a-400, #34d399) 45%, transparent); }
+.status-occupied   .status-dot { background: var(--a-400, #34d399); }
+.status-reserved   .status-dot { background: #818cf8; }
+.status-ending     .status-dot { background: #fbbf24; box-shadow: 0 0 8px rgba(251,191,36,0.45); }
+.status-maintenance.status-dot { background: #f87171; }
+
+/* ── Buttons ─────────────────────────────────────────────────────── */
+.btn-primary {
+    background: var(--a-500, #10b981);
+    color: #fff;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    transition: all .15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--a-500, #10b981) 22%, transparent);
+}
+.btn-primary:hover { background: var(--a-600, #059669); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0) scale(0.99); }
+
+.btn-secondary {
+    background: rgba(255,255,255,0.06);
+    color: #e2e8f0;
+    font-weight: 500;
+    padding: 9px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    transition: all .15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+.btn-danger {
+    background: rgba(239,68,68,0.1);
+    color: #f87171;
+    font-weight: 500;
+    padding: 9px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    transition: all .15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-danger:hover { background: rgba(239,68,68,0.18); }
+
+/* ── Tables (HTML table) ─────────────────────────────────────────── */
+.data-table {
+    width: 100%;
+    font-size: 13px;
+}
+.data-table th {
+    text-align: left;
+    padding: 10px 14px;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: #64748b;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.data-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: #cbd5e1;
+}
+.data-table tbody tr:hover {
+    background: rgba(255,255,255,0.02);
+}
+
+/* ── Badges ──────────────────────────────────────────────────────── */
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .02em;
+}
+.badge-emerald  { background: color-mix(in srgb, var(--a-500, #10b981) 14%, transparent); color: var(--a-400, #34d399); }
+.badge-amber    { background: rgba(245,158,11,0.14);  color: #fbbf24; }
+.badge-rose     { background: rgba(244,63,94,0.14);   color: #fb7185; }
+.badge-violet   { background: rgba(139,92,246,0.14);  color: #a78bfa; }
+.badge-sky      { background: rgba(56,189,248,0.14);  color: #38bdf8; }
+.badge-slate    { background: rgba(100,116,139,0.14); color: #94a3b8; }
+
+/* ── Form controls (.input is the shared theme control) ─────────── */
+.input {
+    display: block;
+    width: 100%;
+    background: #171d2b;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 10px 16px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: #fff;
+    transition: border-color .15s, box-shadow .15s, background-color .15s;
+}
+.input::placeholder { color: #64748b; }
+.input:hover { border-color: rgba(255,255,255,0.18); }
+.input:focus {
+    outline: none;
+    border-color: color-mix(in srgb, var(--a-500, #10b981) 60%, white);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--a-500, #10b981) 16%, transparent);
+    background: #131824;
+}
+.input:disabled { opacity: .55; cursor: not-allowed; }
+
+/* ── Focus visibility (accessible keyboard focus) ───────────────── */
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible,
+.btn-danger:focus-visible,
+.nav-item:focus-visible,
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--a-500, #10b981) 55%, white);
+    outline-offset: 2px;
+}
+
+/* ── Empty states ───────────────────────────────────────────────── */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 40px 24px;
+    text-align: center;
+    border: 1px dashed rgba(255,255,255,0.1);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.015);
+    color: #64748b;
+}
+
+/* ── Modal ───────────────────────────────────────────────────────── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+.modal-card {
+    background: #131824;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
+    width: 100%;
+    max-width: 520px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(148,163,184,0.3); }
+
+/* ── Utility ─────────────────────────────────────────────────────── */
+.glass { background: rgba(19,24,36,0.66); backdrop-filter: blur(14px); }
+.card  { background: #131824; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; transition: border-color .2s, box-shadow .2s; }
+.card:hover { border-color: rgba(255,255,255,0.11); box-shadow: 0 8px 30px rgba(0,0,0,0.18); }
+
+/* Timer flash */
+@keyframes timerPulse {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+.timer-pulse { animation: timerPulse 2s ease-in-out infinite; }

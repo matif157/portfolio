@@ -1,0 +1,18 @@
+SPS CRM - Local Setup
+
+1. Make sure this project is extracted directly under:
+   C:\xampp\htdocs\SPS_CRM_AI_Professional_Complete_FIXED
+
+2. Run check-environment.bat first.
+   The application requires PHP 8.2 or newer.
+
+3. If the environment check passes, double-click start-local.bat.
+
+4. Open:
+   http://127.0.0.1:8000/login
+
+The launcher uses C:\xampp\php\php.exe explicitly and runs the
+public directory as the document root with public\index.php as the
+PHP built-in server router.
+
+Do not use "php -S localhost:8000" from the project root.

@@ -1,0 +1,14 @@
+<?php
+declare(strict_types=1);
+require_once __DIR__.'/auth.php';
+if(logged_in())redirect('dashboard.php');
+$error=null;
+try{$pdo=db();ensure_installed($pdo);
+if($_SERVER['REQUEST_METHOD']==='POST'){verify_csrf();$username=post_string('username');$password=is_string($_POST['password']??null)?$_POST['password']:'';$lock=login_lock_status($pdo,$username,$_SERVER['REMOTE_ADDR']??'');
+if($lock['locked'])$error='Too many failed attempts. Wait 15 minutes or use Password Setup.';
+else{$s=$pdo->prepare('SELECT id,password_hash,status FROM users WHERE username=? LIMIT 1');$s->execute([$username]);$u=$s->fetch();$valid=$u&&$u['status']==='active'&&password_verify($password,$u['password_hash']);record_login_attempt($pdo,$username,(bool)$valid);
+if($valid){login_user((int)$u['id']);$pdo->prepare('UPDATE users SET last_login_at=NOW() WHERE id=?')->execute([(int)$u['id']]);activity($pdo,'login','authentication',(int)$u['id'],'Successful login');$dest=$_SESSION['after_login']??'dashboard.php';unset($_SESSION['after_login']);if(!preg_match('/^[A-Za-z0-9_.-]+\.php$/',$dest))$dest='dashboard.php';redirect($dest);}
+$error='Invalid username or password.';}}}
+catch(Throwable $e){error_log('[SPS LOGIN] '.$e->getMessage());$error='Database unavailable. Start MySQL and verify gpt exists.';}
+?>
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Login · SPS CRM</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#eef3f9;font-family:Arial;color:#172033}.box{width:min(450px,92vw);background:#fff;border:1px solid #e1e7ef;border-radius:20px;padding:34px;box-shadow:0 20px 60px #0001}.field{margin:15px 0}.field label{display:block;font-size:12px;font-weight:800;margin-bottom:7px}.field input{width:100%;padding:13px;border:1px solid #d3dce9;border-radius:10px;box-sizing:border-box}.btn{width:100%;background:#315ee7;color:#fff;border:0;border-radius:10px;padding:13px;font-weight:850}.error{background:#fff0f0;border:1px solid #efc2c2;color:#983232;padding:12px;border-radius:10px;margin-bottom:14px}.help{text-align:center;margin-top:18px;font-size:13px}.help a{color:#315ee7;text-decoration:none}</style></head><body><main class="box"><h1>Syed Professional Services CRM</h1><p>Secure local XAMPP login · Phase 6</p><?php if($error):?><div class="error"><?=e($error)?></div><?php endif;?><form method="post" autocomplete="off"><?=csrf_field()?><div class="field"><label>Username</label><input name="username" value="<?=e($_POST['username']??'admin')?>" required autofocus></div><div class="field"><label>Password</label><input type="password" name="password" required></div><button class="btn">Sign in</button></form><div class="help"><a href="setup_password.php">Repair / Reset Administrator Password</a></div></main></body></html>

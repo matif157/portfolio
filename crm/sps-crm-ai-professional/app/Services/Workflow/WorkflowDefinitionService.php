@@ -1,0 +1,4 @@
+<?php
+namespace App\Services\Workflow;
+use App\Support\Database;use App\Support\TenantContext;
+final class WorkflowDefinitionService { public function createVersion(int $serviceId,string $name,array $steps):int{$pdo=Database::pdo();$n=(int)$pdo->query('SELECT COALESCE(MAX(version_no),0)+1 FROM workflow_versions WHERE service_id='.(int)$serviceId)->fetchColumn();$s=$pdo->prepare('INSERT INTO workflow_versions(tenant_id,service_id,version_no,name,status,created_at) VALUES(?,?,?,?,?,NOW())');$s->execute([TenantContext::id(),$serviceId,$n,$name,'draft']);$id=(int)$pdo->lastInsertId();$i=$pdo->prepare('INSERT INTO workflow_steps(tenant_id,workflow_version_id,title,step_type,requirement,sort_order,config_json,created_at) VALUES(?,?,?,?,?,?,?,NOW())');foreach($steps as $order=>$step)$i->execute([TenantContext::id(),$id,$step['title'],$step['type']??'manual',$step['requirement']??'required',$order,json_encode($step['config']??[])]);return $id;} }

@@ -1,0 +1,3 @@
+<?php
+namespace App\Repositories; use App\Core\Database;
+final class InvoiceRepository extends BaseRepository{protected string $table='invoices';public function all(int $limit=500):array{$s=Database::pdo()->query('SELECT i.*,c.full_name FROM invoices i JOIN clients c ON c.id=i.client_id ORDER BY i.id DESC LIMIT '.max(1,min(1000,$limit)));return $s->fetchAll();}public function findWithItems(int $id):?array{$r=$this->find($id);if(!$r)return null;$s=Database::pdo()->prepare('SELECT * FROM invoice_items WHERE invoice_id=? ORDER BY id');$s->execute([$id]);$r['items']=$s->fetchAll();$s=Database::pdo()->prepare('SELECT * FROM invoice_payments WHERE invoice_id=? ORDER BY id DESC');$s->execute([$id]);$r['payments']=$s->fetchAll();return $r;}}

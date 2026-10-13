@@ -1,0 +1,8 @@
+.env
+uploads/
+vendor/
+node_modules/
+storage/logs/
+*.log
+.DS_Store
+setup_password.php
